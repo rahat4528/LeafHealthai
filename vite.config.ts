@@ -13,14 +13,16 @@ export default defineConfig({
     tanstackStart({
       server: { entry: "server" },
     }),
-    nitro(),
+    nitro({
+      preset: process.env.VERCEL ? "vercel" : undefined,
+    }),
     viteReact(),
     VitePWA({
       strategies: "generateSW",
       registerType: "autoUpdate",
       injectRegister: null,
       filename: "sw.js",
-      outDir: "dist/client",
+      outDir: process.env.VERCEL ? ".vercel/output/static" : "dist/client",
       devOptions: { enabled: false },
       manifest: false,
       workbox: {
