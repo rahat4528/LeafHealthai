@@ -1,6 +1,7 @@
 import { Droplet, ShieldCheck } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { TreatmentCostGuide } from "@/components/treatment-cost-guide";
 import { buildTreatmentPlan, type PlanWeather } from "@/lib/treatment-plan";
 import type { NutrientFinding } from "@/lib/nutrients";
 import type { PestFinding } from "@/lib/pests";
@@ -135,6 +136,8 @@ export function TreatmentPlanCard(props: TreatmentPlanCardProps) {
         <Lines title="Preventive actions" items={plan.preventive} />
         <Lines title="Safety precautions" items={plan.safety} />
       </div>
+
+      <TreatmentCostGuide disease={props.disease} plant={props.plant} severity={props.severity} />
 
       <div className="mt-4 rounded-xl border border-amber/50 bg-amber/10 p-4">
         <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
