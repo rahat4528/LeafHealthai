@@ -19,7 +19,9 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import type { AnalysisResult } from "@/lib/demo-analysis";
 import { buildStats, formatWhen, loadHistory, progressGroups } from "@/lib/history";
-import { useLang } from "@/lib/i18n";
+import { LANGS, useLang } from "@/lib/i18n";
+import { KNOWLEDGE } from "@/lib/knowledge";
+import { CROPS } from "@/lib/crops";
 
 const TITLE = "Crop Guardian | Agricultural Intelligence Dashboard";
 const DESCRIPTION =
@@ -96,32 +98,36 @@ export function DashboardPage() {
   const stats = useMemo(() => buildStats(items), [items]);
   const groups = useMemo(() => progressGroups(items), [items]);
 
+  const pathogenCount = KNOWLEDGE.length;
+  const cropCount = CROPS.length;
+  const langCount = LANGS.length;
+
   const impactStats = [
     {
       icon: Leaf,
-      label: "Diseases Detected",
-      value: "38 Pathogens",
+      label: t("diseasesDetected"),
+      value: `${pathogenCount} Pathogens`,
       hint: "Computer Vision & Heuristic Models",
       tone: "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10",
     },
     {
       icon: Globe,
-      label: "Crops Supported",
-      value: "12 Primary Crops",
-      hint: "Tomato, Potato, Rice, Corn & Fruits",
+      label: t("cropsSupported"),
+      value: `${cropCount} Primary Crops`,
+      hint: "Rice, Potato, Tomato, Wheat & Vegetables",
       tone: "text-teal-600 dark:text-teal-400 bg-teal-500/10",
     },
     {
       icon: Smartphone,
-      label: "Offline Ready",
+      label: t("offlineReady"),
       value: "100% PWA Cached",
       hint: "Works in 0G / 2G Rural Fields",
       tone: "text-cyan-600 dark:text-cyan-400 bg-cyan-500/10",
     },
     {
       icon: Languages,
-      label: "Local Languages",
-      value: "3 Languages",
+      label: t("multilingual"),
+      value: `${langCount} Languages`,
       hint: "English, বাংলা (Bengali), हिन्दी (Hindi)",
       tone: "text-amber-600 dark:text-amber-400 bg-amber-500/10",
     },
@@ -352,9 +358,9 @@ export function DashboardPage() {
           {items.length === 0 && (
             <Badge
               variant="outline"
-              className="border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+              className="border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-200 text-xs font-mono"
             >
-              Live Reference Feed
+              {t("demoData")} · Verified Field Profiles
             </Badge>
           )}
         </div>
@@ -435,6 +441,9 @@ export function DashboardPage() {
                       </Badge>
                       <span className="text-[11px] font-mono text-muted-foreground">
                         {diag.confidence}% Match
+                      </span>
+                      <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
+                        {t("demoData")}
                       </span>
                     </div>
 

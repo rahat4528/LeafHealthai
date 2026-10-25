@@ -30,6 +30,7 @@ import {
   type DiseaseReport,
 } from "@/lib/outbreak";
 import { useFarmWeather } from "@/lib/use-farm-weather";
+import { useLang } from "@/lib/i18n";
 
 const TITLE = "Regional Disease Outbreak Watch | Crop Guardian";
 const DESCRIPTION =
@@ -184,6 +185,7 @@ const BASELINE_REPORTS: DiseaseReport[] = [
 ];
 
 function OutbreakPage() {
+  const { t } = useLang();
   const { report } = useFarmWeather();
   const [reports, setReports] = useState<DiseaseReport[]>([]);
   const [share, setShare] = useState(true);
@@ -211,9 +213,14 @@ function OutbreakPage() {
     <div className="mx-auto max-w-5xl space-y-10 px-4 py-8 sm:px-6">
       {/* Header */}
       <header className="space-y-2">
-        <div className="inline-flex items-center gap-2 rounded-full border border-destructive/30 bg-destructive/10 px-3 py-1 text-xs font-semibold text-destructive-ink">
-          <span className="size-2 rounded-full bg-destructive animate-pulse" />
-          Live Epidemiology Telemetry · South Asian Agro-Zones
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="inline-flex items-center gap-2 rounded-full border border-destructive/30 bg-destructive/10 px-3 py-1 text-xs font-semibold text-destructive-ink">
+            <span className="size-2 rounded-full bg-destructive animate-pulse" />
+            Live Epidemiology Telemetry · South Asian Agro-Zones
+          </div>
+          <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-xs font-mono font-medium text-amber-800 dark:text-amber-300">
+            {t("demoData")}
+          </span>
         </div>
         <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl font-['Outfit']">
           Regional Outbreak Watch & Map
