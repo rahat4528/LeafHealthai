@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { Toaster } from "../components/ui/sonner";
 import { OfflineBanner } from "../components/offline-banner";
+import { JudgeDemoBar } from "../components/judge-demo-bar";
 import { SiteFooter } from "../components/site-footer";
 import { SiteHeader } from "../components/site-header";
 import { LanguageProvider } from "../lib/i18n";
@@ -150,6 +151,7 @@ function RootComponent() {
       <ThemeProvider>
         <LanguageProvider>
           <div className="flex min-h-dvh flex-col bg-background">
+            <JudgeDemoBar />
             <OfflineBanner />
             <SiteHeader />
             <main className="flex-1">
