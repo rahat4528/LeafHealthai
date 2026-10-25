@@ -15,8 +15,8 @@ export const Route = createFileRoute("/knowledge/$slug")({
   head: ({ loaderData }) => {
     const entry = loaderData?.entry;
     const title = entry
-      ? `${entry.name} — symptoms, causes and treatment | LeafCheck`
-      : "Guide | LeafCheck";
+      ? `${entry.name} — symptoms, causes and treatment | Crop Guardian`
+      : "Guide | Crop Guardian";
     const description = entry
       ? `${entry.summary} Learn identification, weather triggers, prevention and organic or chemical treatment.`
       : "Plant health guide.";

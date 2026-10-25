@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { useLang } from "@/lib/i18n";
 
-const TITLE = "Help and questions | LeafCheck";
+const TITLE = "Help and questions | Crop Guardian";
 const DESCRIPTION =
   "Answers about photo rules, privacy, offline use and how accurate the leaf check is.";
 

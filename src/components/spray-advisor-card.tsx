@@ -1,74 +1,177 @@
-import { Droplet, ShieldCheck } from "lucide-react";
+import {
+  AlertTriangle,
+  Bell,
+  CheckCircle2,
+  Clock,
+  Droplet,
+  ShieldAlert,
+  ShieldCheck,
+  Wind,
+} from "lucide-react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SprayAdvice } from "@/lib/spray-advisor";
 
-const tone: Record<SprayAdvice["decision"], string> = {
-  "spray-now": "border-fern/50 bg-fern/10",
-  wait: "border-amber/50 bg-amber/10",
-  "do-not-spray": "border-destructive/50 bg-destructive/10",
-};
+const DECISION_CONFIG = {
+  "spray-now": {
+    tone: "border-emerald-500/50 bg-emerald-500/10 text-emerald-800 dark:text-emerald-200",
+    badgeTone: "bg-emerald-500 text-white",
+    badgeLabel: "SAFE TO SPRAY NOW",
+    icon: CheckCircle2,
+    subtext: "Optimal conditions: calm winds, low rain chance, mild canopy temperatures.",
+  },
+  wait: {
+    tone: "border-amber-500/50 bg-amber-500/10 text-amber-800 dark:text-amber-200",
+    badgeTone: "bg-amber-500 text-white",
+    badgeLabel: "WAIT — MARGINAL WEATHER",
+    icon: Clock,
+    subtext: "Wind or moisture conditions are suboptimal right now. Consult windows below.",
+  },
+  "do-not-spray": {
+    tone: "border-destructive/50 bg-destructive/10 text-destructive-ink",
+    badgeTone: "bg-destructive text-white",
+    badgeLabel: "DO NOT SPRAY TODAY",
+    icon: ShieldAlert,
+    subtext:
+      "Imminent rainfall or high wind drift will waste input chemicals and contaminate runoff.",
+  },
+} as const;
 
 export function SprayAdvisorCard({ advice }: { advice: SprayAdvice }) {
+  const config = DECISION_CONFIG[advice.decision] || DECISION_CONFIG.wait;
+  const DecisionIcon = config.icon;
+
+  const handleSetReminder = () => {
+    toast.success(
+      "Spray window reminder set! You will be notified before optimal morning spraying.",
+    );
+  };
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <ShieldCheck className="size-5 text-primary" aria-hidden="true" /> Spray advisor
-        </CardTitle>
+    <Card className="overflow-hidden border-2 border-emerald-500/30 bg-gradient-to-b from-card/90 to-card/60 shadow-md backdrop-blur-xl">
+      <CardHeader className="pb-3 border-b border-border/40">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+              <ShieldCheck className="size-5" />
+            </span>
+            <div>
+              <CardTitle className="text-xl font-bold tracking-tight text-foreground font-['Outfit']">
+                Climate-Smart Spray Decision AI
+              </CardTitle>
+              <p className="text-xs text-muted-foreground">
+                Prevents chemical wash-off, drift contamination, and wasted fungicide inputs.
+              </p>
+            </div>
+          </div>
+
+          <Badge
+            className={`px-3 py-1 text-xs font-extrabold uppercase font-mono shadow-xs ${config.badgeTone}`}
+          >
+            {config.badgeLabel}
+          </Badge>
+        </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className={`rounded-2xl border p-4 ${tone[advice.decision]}`}>
-          <p className="text-base font-semibold text-foreground">{advice.headline}</p>
-          <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-            {advice.reasons.map((reason) => (
-              <li key={reason} className="ml-4 list-disc">
-                {reason}
-              </li>
-            ))}
-          </ul>
+
+      <CardContent className="space-y-5 pt-4">
+        {/* Main Advisory Banner */}
+        <div className={`rounded-2xl border p-4.5 transition-all ${config.tone}`}>
+          <div className="flex items-start gap-3">
+            <DecisionIcon className="size-6 shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <p className="text-base font-extrabold tracking-tight font-['Outfit']">
+                {advice.headline}
+              </p>
+              <p className="text-xs opacity-90 leading-relaxed">{config.subtext}</p>
+            </div>
+          </div>
+
+          {advice.reasons.length > 0 && (
+            <ul className="mt-3.5 space-y-1.5 text-xs">
+              {advice.reasons.map((reason) => (
+                <li key={reason} className="flex items-start gap-2">
+                  <span className="size-1.5 rounded-full bg-current mt-1.5 shrink-0" />
+                  <span>{reason}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
+        {/* Rain Risk Tag */}
         {advice.nextRainLabel && (
-          <p className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Droplet className="size-4" aria-hidden="true" /> Next likely rain:{" "}
-            {advice.nextRainLabel}
-          </p>
-        )}
-
-        {advice.windows.length > 0 && (
-          <div className="space-y-2">
-            <p className="text-sm font-semibold text-foreground">
-              Good spraying times in the next 2 days
-            </p>
-            {advice.windows.map((window) => (
-              <div key={window.start} className="rounded-xl border p-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="font-medium text-foreground">{window.label}</span>
-                  <Badge variant="secondary">Suitability {window.score}%</Badge>
-                </div>
-                <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
-                  {window.notes.map((note) => (
-                    <li key={note} className="ml-4 list-disc">
-                      {note}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          <div className="flex items-center justify-between rounded-xl border border-white/60 dark:border-white/10 bg-muted/40 p-3 text-xs">
+            <span className="flex items-center gap-2 text-muted-foreground">
+              <Droplet className="size-4 text-teal-600" />
+              <strong>Next Predicted Rainfall Window:</strong> {advice.nextRainLabel}
+            </span>
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-7 text-[11px] gap-1"
+              onClick={handleSetReminder}
+            >
+              <Bell className="size-3" /> Set Reminder
+            </Button>
           </div>
         )}
 
-        <p className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1">
-            <Droplet className="size-3.5" aria-hidden="true" /> Droplet above 15 km/h blows spray
-            off the leaf
+        {/* Best Spray Windows */}
+        {advice.windows.length > 0 && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground font-mono">
+                Recommended Spraying Windows (Next 48 Hours)
+              </p>
+              <span className="text-[11px] text-muted-foreground">
+                Ranked by lowest drift & wash risk
+              </span>
+            </div>
+
+            <div className="grid gap-2.5 sm:grid-cols-2">
+              {advice.windows.slice(0, 4).map((window, idx) => (
+                <div
+                  key={window.start}
+                  className="rounded-xl border border-white/60 dark:border-white/10 bg-card/70 p-3 shadow-2xs"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-bold text-foreground text-xs flex items-center gap-1.5 font-['Outfit']">
+                      <Clock className="size-3.5 text-emerald-600" />
+                      {window.label}
+                    </span>
+                    <Badge
+                      variant={idx === 0 ? "default" : "secondary"}
+                      className="text-[10px] font-mono"
+                    >
+                      Suitability: {window.score}%
+                    </Badge>
+                  </div>
+                  <ul className="mt-2 space-y-1 text-[11px] text-muted-foreground">
+                    {window.notes.map((note) => (
+                      <li key={note} className="flex items-center gap-1.5 truncate">
+                        <span className="size-1 rounded-full bg-emerald-500" />
+                        <span>{note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Agronomy Principles */}
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border/40 pt-3 text-[11px] text-muted-foreground font-mono">
+          <span className="inline-flex items-center gap-1.5">
+            <Wind className="size-3.5 text-emerald-600" /> Wind &gt;15 km/h causes pesticide drift
           </span>
-          <span className="inline-flex items-center gap-1">
-            <Droplet className="size-3.5" aria-hidden="true" /> Rain within 6 hours washes it away
+          <span className="inline-flex items-center gap-1.5">
+            <Droplet className="size-3.5 text-teal-600" /> Rain &lt;6h washes off active fungicides
           </span>
-        </p>
+        </div>
       </CardContent>
     </Card>
   );

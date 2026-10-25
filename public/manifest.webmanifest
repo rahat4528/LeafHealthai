@@ -1,12 +1,12 @@
 {
-  "name": "LeafCheck - Leaf disease checker",
-  "short_name": "LeafCheck",
-  "description": "Check a leaf photo for disease and get weather based farming advice, even without internet.",
+  "name": "Crop Guardian — AI Agronomist for Every Farmer",
+  "short_name": "Crop Guardian",
+  "description": "Offline-first AI agronomist helping rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#f7f6ef",
-  "theme_color": "#2f7a3f",
+  "theme_color": "#16a34a",
   "icons": [
     { "src": "/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
     { "src": "/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },

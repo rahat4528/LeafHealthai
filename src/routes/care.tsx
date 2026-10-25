@@ -9,7 +9,7 @@ import { loadHistory } from "@/lib/history";
 import { irrigationAdvice } from "@/lib/irrigation-advisor";
 import { useFarmWeather } from "@/lib/use-farm-weather";
 
-const TITLE = "Plant care calendar & treatment tracking | LeafCheck";
+const TITLE = "Plant care calendar & treatment tracking | Crop Guardian";
 const DESCRIPTION =
   "Follow-up reminders, watering and fertiliser tasks, plus side-by-side proof of whether your treatment is working.";
 

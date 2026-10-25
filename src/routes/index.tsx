@@ -41,9 +41,9 @@ import { SmartTips } from "@/components/smart-tips";
 import { approxKb, compressDataUrl, connectionPlan, withRetry } from "@/lib/upload-transport";
 import { seasonOf, type WeatherReport } from "@/lib/weather";
 
-const TITLE = "LeafCheck | Find leaf disease from a photo";
+const TITLE = "Crop Guardian — AI Agronomist for Every Farmer";
 const DESCRIPTION =
-  "Upload a photo of one leaf and get a simple health result with treatment and prevention tips in easy English, Bangla and Hindi.";
+  "Crop Guardian: Offline-first AI agronomy for smallholder farmers. Instant leaf disease detection, climate-smart spray advisory, and regional outbreak forecasting in Bengali, Hindi, and English.";
 
 export const Route = createFileRoute("/")({
   head: () => ({

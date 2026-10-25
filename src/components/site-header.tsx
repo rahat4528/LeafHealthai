@@ -55,7 +55,7 @@ export function SiteHeader() {
             </span>
             <span className="hidden sm:inline-flex items-center gap-1.5 text-[9px] font-mono font-semibold text-emerald-600 dark:text-emerald-400 tracking-wider">
               <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              SMART IOT ACTIVE
+              AI AGRONOMIST · OFFLINE READY
             </span>
           </div>
         </Link>

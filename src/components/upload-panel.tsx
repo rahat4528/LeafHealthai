@@ -18,6 +18,9 @@ import { Button } from "@/components/ui/button";
 import { QualityAssistant } from "@/components/quality-assistant";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ACCEPTED_TYPES, canAnalyse, type ImageCheck } from "@/lib/leaf-image-validation";
+import tomatoSample from "@/assets/sample-tomato-healthy.jpg";
+import potatoSample from "@/assets/sample-potato-blight.jpg";
+import riceSample from "@/assets/sample-rice-blast.jpg";
 
 const TIPS = [
   "One leaf or a whole plant - we check every leaf.",
@@ -124,6 +127,19 @@ export function UploadPanel({
       );
     } catch {
       toast.info("Press Ctrl + V directly on your keyboard to paste the copied image.");
+    }
+  }
+
+  async function handleSampleClick(url: string, filename: string) {
+    try {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const file = new File([blob], filename, { type: "image/jpeg" });
+      onFile(file);
+      toast.success(`Loaded sample: ${filename.replace(/-/g, " ").replace(".jpg", "")}`);
+    } catch (err) {
+      console.error("Failed to load sample image", err);
+      toast.error("Could not load sample image.");
     }
   }
 
@@ -246,6 +262,43 @@ export function UploadPanel({
               <Camera className="size-4" aria-hidden="true" /> Use camera
             </Button>
           </div>
+
+          {/* Quick Demo Sample Buttons for Hackathon Judges */}
+          <div className="mt-6 pt-5 border-t border-white/50 dark:border-white/10">
+            <p className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
+              ⚡ Try Instant Sample (One-Click Demo):
+            </p>
+            <div className="mt-3 flex flex-wrap justify-center gap-2.5">
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => handleSampleClick(potatoSample, "potato-late-blight.jpg")}
+                className="rounded-full border-amber-500/40 bg-white/75 dark:bg-white/10 hover:bg-amber-500/15 hover:border-amber-500 text-xs font-semibold shadow-xs gap-1.5"
+              >
+                <span>🥔</span> Try: Potato Disease
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => handleSampleClick(riceSample, "rice-blast.jpg")}
+                className="rounded-full border-teal-500/40 bg-white/75 dark:bg-white/10 hover:bg-teal-500/15 hover:border-teal-500 text-xs font-semibold shadow-xs gap-1.5"
+              >
+                <span>🌾</span> Try: Rice Blast
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => handleSampleClick(tomatoSample, "tomato-sample.jpg")}
+                className="rounded-full border-emerald-500/40 bg-white/75 dark:bg-white/10 hover:bg-emerald-500/15 hover:border-emerald-500 text-xs font-semibold shadow-xs gap-1.5"
+              >
+                <span>🍅</span> Try: Tomato Leaf
+              </Button>
+            </div>
+          </div>
+
           <p className="mt-4 text-xs text-muted-foreground">
             Works with {ACCEPTED_TYPES.join(", ")}. One photo at a time.
           </p>

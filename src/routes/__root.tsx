@@ -80,30 +80,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "LeafCheck | Find leaf disease from a photo" },
+      { title: "Crop Guardian — AI Agronomist for Every Farmer" },
       {
         name: "description",
         content:
-          "Upload a photo of one leaf and get a simple health result with treatment and prevention tips in easy English.",
+          "Offline-first AI agronomist helping rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice.",
       },
-      { name: "author", content: "LeafCheck" },
-      { name: "theme-color", content: "#2f7a3f" },
+      { name: "author", content: "Crop Guardian · LeafHealthAI" },
+      { name: "theme-color", content: "#16a34a" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
-      { name: "apple-mobile-web-app-title", content: "LeafCheck" },
-      { property: "og:title", content: "LeafCheck | Find leaf disease from a photo" },
+      { name: "apple-mobile-web-app-title", content: "Crop Guardian" },
+      { property: "og:title", content: "Crop Guardian — AI Agronomist for Every Farmer" },
       {
         property: "og:description",
         content:
-          "Upload a photo of one leaf and get a simple health result with treatment and prevention tips in easy English.",
+          "Offline-first AI agronomist helping rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@LeafCheck" },
-      { name: "twitter:title", content: "LeafCheck | Find leaf disease from a photo" },
+      { name: "twitter:site", content: "@CropGuardian" },
+      { name: "twitter:title", content: "Crop Guardian — AI Agronomist for Every Farmer" },
       {
         name: "twitter:description",
         content:
-          "Upload a photo of one leaf and get a simple health result with treatment and prevention tips in easy English.",
+          "Offline-first AI agronomist helping rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice.",
       },
       { property: "og:image", content: "/og-image.png" },
       { name: "twitter:image", content: "/og-image.png" },

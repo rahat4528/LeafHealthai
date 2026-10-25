@@ -18,7 +18,7 @@ import { sprayAdvice } from "@/lib/spray-advisor";
 import { useFarmWeather } from "@/lib/use-farm-weather";
 import { seasonOf } from "@/lib/weather";
 
-const TITLE = "Spray & water advisor | LeafCheck";
+const TITLE = "Spray & water advisor | Crop Guardian";
 const DESCRIPTION =
   "Find the best hours to spray and know whether to water today, based on rain, wind, humidity, heat and UV in your area.";
 

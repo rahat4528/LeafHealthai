@@ -3,7 +3,7 @@ import { ArrowRight, Droplet, Leaf } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-const TITLE = "About LeafCheck | AI for smarter agriculture in Bangladesh";
+const TITLE = "About Crop Guardian | AI for smarter agriculture in Bangladesh";
 const DESCRIPTION =
   "Meet the CSE student team building accessible AI tools to help farmers identify plant diseases and improve crop health in Bangladesh.";
 
@@ -46,7 +46,7 @@ function AboutPage() {
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:py-24">
           <div>
             <p className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-sidebar-muted">
-              <Leaf className="size-4" aria-hidden="true" /> About LeafCheck
+              <Leaf className="size-4" aria-hidden="true" /> About Crop Guardian
             </p>
             <h1 className="mt-5 max-w-3xl text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
               Technology that helps agriculture move forward.
@@ -122,7 +122,7 @@ function AboutPage() {
         <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8 lg:flex-row lg:items-center">
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-foreground">
-              Help us make LeafCheck better.
+              Help us make Crop Guardian better.
             </h2>
             <p className="mt-2 max-w-2xl text-muted-foreground">
               Try a scan, explore the knowledge center, or share an idea that could make plant care

@@ -37,6 +37,10 @@ export function KnowledgeCard({ entry }: { entry: KnowledgeEntry }) {
           decoding="async"
           className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+        <span className="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 rounded-full bg-slate-950/80 px-2 py-0.5 text-[10px] font-mono font-medium text-emerald-400 border border-emerald-500/30 backdrop-blur-md shadow-xs">
+          <span className="size-1.5 rounded-full bg-emerald-400" />
+          Available Offline
+        </span>
         <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-center gap-2 bg-gradient-to-t from-black/70 to-transparent p-3">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-background/90 px-2.5 py-1 text-[11px] font-semibold text-foreground">
             <Icon className="size-3.5 shrink-0" aria-hidden="true" />

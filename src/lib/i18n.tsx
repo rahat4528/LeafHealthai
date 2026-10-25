@@ -20,7 +20,7 @@ const KEY = "leafcheck.lang";
 
 /** Short, simple strings only. Disease details stay in English for now. */
 const EN = {
-  brand: "LeafCheck",
+  brand: "Crop Guardian",
   navHome: "Check a leaf",
   navDashboard: "Dashboard",
   navWeather: "Weather & risk",
@@ -83,6 +83,7 @@ const EN = {
 type Dict = typeof EN;
 
 const BN: Partial<Dict> = {
+  brand: "ক্রপ গার্ডিয়ান",
   navHome: "পাতা পরীক্ষা",
   navDashboard: "ড্যাশবোর্ড",
   navWeather: "আবহাওয়া ও ঝুঁকি",
@@ -141,6 +142,7 @@ const BN: Partial<Dict> = {
 };
 
 const HI: Partial<Dict> = {
+  brand: "क्रॉप गार्जियन",
   navHome: "पत्ती जाँच",
   navDashboard: "डैशबोर्ड",
   navWeather: "मौसम और जोखिम",

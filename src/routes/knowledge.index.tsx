@@ -22,7 +22,7 @@ import {
   type KnowledgeCategory,
 } from "@/lib/knowledge";
 
-const TITLE = "Plant Knowledge Center | LeafCheck";
+const TITLE = "Agricultural Knowledge Center | Crop Guardian";
 const DESCRIPTION =
   "Research-based guides to plant diseases and pests: symptoms, causes, weather triggers, prevention and organic or chemical treatment for 40+ problems.";
 
@@ -270,28 +270,146 @@ function KnowledgePage() {
       </section>
 
       {isBrowsing ? (
-        <section className="mt-10 grid gap-8 lg:grid-cols-2" aria-label="Featured guides">
-          <div>
-            <h2 className="flex items-center gap-2 text-lg font-bold text-foreground">
-              <Droplet className="size-5 text-orange-500" aria-hidden="true" /> Trending now
-            </h2>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-              {trending.map((entry) => (
-                <KnowledgeCard key={entry.slug} entry={entry} />
-              ))}
+        <>
+          {/* Regional Outbreak Threats for South Asia */}
+          <section className="mt-10 space-y-4 rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-card to-card p-6 sm:p-8 backdrop-blur-md">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                  Regional Agronomy Intelligence
+                </span>
+                <h2 className="text-2xl font-extrabold tracking-tight text-foreground font-['Outfit']">
+                  Top 5 High-Impact Crop Diseases by Region
+                </h2>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Click any disease to filter field guides, organic remedies, and prevention
+                  protocols.
+                </p>
+              </div>
+              <Badge
+                variant="outline"
+                className="border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+              >
+                South Asia Agronomy Core
+              </Badge>
             </div>
-          </div>
-          <div>
-            <h2 className="flex items-center gap-2 text-lg font-bold text-foreground">
-              <Droplet className="size-5 text-primary" aria-hidden="true" /> Recently added
-            </h2>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-              {recent.map((entry) => (
-                <KnowledgeCard key={entry.slug} entry={entry} />
-              ))}
+
+            <div className="mt-4 grid gap-6 md:grid-cols-2">
+              {/* Bangladesh Hub */}
+              <div className="rounded-2xl border border-white/60 dark:border-white/10 bg-background/80 p-4.5 shadow-2xs">
+                <div className="flex items-center justify-between pb-2 mb-3 border-b border-border/40">
+                  <span className="font-bold text-foreground text-sm flex items-center gap-2">
+                    <span className="text-lg">🇧🇩</span> Bangladesh Primary Agro-Belt
+                  </span>
+                  <span className="text-[11px] font-mono text-emerald-600 font-semibold">
+                    5 Key Threats
+                  </span>
+                </div>
+                <ul className="space-y-2 text-xs">
+                  {[
+                    { name: "Rice Blast", crop: "Rice / Paddy", risk: "High", query: "rice blast" },
+                    { name: "Jute Stem Rot", crop: "Jute Fiber", risk: "High", query: "rot" },
+                    {
+                      name: "Potato Late Blight",
+                      crop: "Potato",
+                      risk: "Severe",
+                      query: "late blight",
+                    },
+                    {
+                      name: "Tomato Early Blight",
+                      crop: "Tomato",
+                      risk: "Medium",
+                      query: "early blight",
+                    },
+                    { name: "Eggplant Shoot Borer", crop: "Brinjal", risk: "High", query: "pest" },
+                  ].map((item) => (
+                    <li key={item.name}>
+                      <button
+                        type="button"
+                        onClick={() => setQuery(item.query)}
+                        className="w-full flex items-center justify-between rounded-xl px-2.5 py-1.5 transition-colors hover:bg-emerald-500/10 text-left group"
+                      >
+                        <span className="font-semibold text-foreground group-hover:text-emerald-600">
+                          {item.name}{" "}
+                          <span className="text-muted-foreground font-normal">({item.crop})</span>
+                        </span>
+                        <Badge variant="secondary" className="text-[10px] font-mono">
+                          {item.risk}
+                        </Badge>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* India Hub */}
+              <div className="rounded-2xl border border-white/60 dark:border-white/10 bg-background/80 p-4.5 shadow-2xs">
+                <div className="flex items-center justify-between pb-2 mb-3 border-b border-border/40">
+                  <span className="font-bold text-foreground text-sm flex items-center gap-2">
+                    <span className="text-lg">🇮🇳</span> India Northern & Delta Belts
+                  </span>
+                  <span className="text-[11px] font-mono text-emerald-600 font-semibold">
+                    5 Key Threats
+                  </span>
+                </div>
+                <ul className="space-y-2 text-xs">
+                  {[
+                    {
+                      name: "Tomato Leaf Curl Virus",
+                      crop: "Tomato",
+                      risk: "Severe",
+                      query: "virus",
+                    },
+                    { name: "Paddy Brown Spot", crop: "Rice / Paddy", risk: "High", query: "spot" },
+                    { name: "Cotton Leaf Curl", crop: "Cotton", risk: "High", query: "curl" },
+                    { name: "Wheat Stripe Rust", crop: "Wheat", risk: "Medium", query: "rust" },
+                    { name: "Sugarcane Red Rot", crop: "Sugarcane", risk: "High", query: "rot" },
+                  ].map((item) => (
+                    <li key={item.name}>
+                      <button
+                        type="button"
+                        onClick={() => setQuery(item.query)}
+                        className="w-full flex items-center justify-between rounded-xl px-2.5 py-1.5 transition-colors hover:bg-emerald-500/10 text-left group"
+                      >
+                        <span className="font-semibold text-foreground group-hover:text-emerald-600">
+                          {item.name}{" "}
+                          <span className="text-muted-foreground font-normal">({item.crop})</span>
+                        </span>
+                        <Badge variant="secondary" className="text-[10px] font-mono">
+                          {item.risk}
+                        </Badge>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+
+          <section className="mt-10 grid gap-8 lg:grid-cols-2" aria-label="Featured guides">
+            <div>
+              <h2 className="flex items-center gap-2 text-lg font-bold text-foreground font-['Outfit']">
+                <Droplet className="size-5 text-orange-500" aria-hidden="true" /> Trending Field
+                Guides
+              </h2>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                {trending.map((entry) => (
+                  <KnowledgeCard key={entry.slug} entry={entry} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <h2 className="flex items-center gap-2 text-lg font-bold text-foreground font-['Outfit']">
+                <Droplet className="size-5 text-primary" aria-hidden="true" /> Recently Researched
+              </h2>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                {recent.map((entry) => (
+                  <KnowledgeCard key={entry.slug} entry={entry} />
+                ))}
+              </div>
+            </div>
+          </section>
+        </>
       ) : null}
 
       <section className="mt-10" aria-label="Knowledge results">

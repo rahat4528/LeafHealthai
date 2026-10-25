@@ -12,6 +12,7 @@ import { RegionPicker } from "@/components/region-picker";
 import { RiskExplainer } from "@/components/risk-explainer";
 import { RiskMap } from "@/components/risk-map";
 import { SmartTips } from "@/components/smart-tips";
+import { SprayAdvisorCard } from "@/components/spray-advisor-card";
 import { WeatherAlerts } from "@/components/weather-alerts";
 import { WeatherCharts } from "@/components/weather-charts";
 import { WeatherMetrics } from "@/components/weather-metrics";
@@ -20,6 +21,7 @@ import { assess } from "@/lib/agri-intelligence";
 import type { AnalysisResult } from "@/lib/demo-analysis";
 import { loadHistory } from "@/lib/history";
 import { getHourlyOutlook, type HourPoint } from "@/lib/hourly-weather";
+import { sprayAdvice } from "@/lib/spray-advisor";
 import type { Area } from "@/lib/regions";
 import {
   cacheReport,
@@ -32,9 +34,9 @@ import {
   type WeatherReport,
 } from "@/lib/weather";
 
-const TITLE = "Weather disease risk engine | LeafCheck";
+const TITLE = "Agro-Weather & Disease Risk Engine | Crop Guardian";
 const DESCRIPTION =
-  "An agricultural decision support dashboard: live weather, a multi factor disease risk engine, a 7 day disease forecast, and prevention advice with the reason behind every step.";
+  "Agricultural decision support: real-time agro-meteorology, Spray Decision AI, multi-factor disease risk indices, and climate-smart preventative field protocols.";
 
 const REFRESH_MS = 10 * 60 * 1000;
 const FALLBACK: Place = { name: "Dhaka", country: "Bangladesh", latitude: 23.81, longitude: 90.41 };
@@ -113,16 +115,21 @@ function WeatherPage() {
     [report, season, history, area],
   );
 
+  const advice = useMemo(() => sprayAdvice(hours), [hours]);
+
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-6 sm:py-12">
       <header>
-        <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-          Weather and disease risk engine
+        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300 mb-2">
+          <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+          Climate-Smart Agriculture · Spray Decision AI
+        </div>
+        <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl font-['Outfit']">
+          Agro-Weather & Disease Risk Engine
         </h1>
-        <p className="mt-3 max-w-3xl text-base text-muted-foreground">
-          This page does not just show weather. It combines live conditions, the 7 day forecast, the
-          season, your area and your past leaf scans to estimate how likely a disease outbreak is,
-          and what to do about it before it starts.
+        <p className="mt-2 max-w-3xl text-base text-muted-foreground">
+          This system combines real-time satellite telemetry, hourly precipitation probability, and
+          wind shear to advise on safe chemical spraying windows and preventative plant pathology.
         </p>
       </header>
 
@@ -138,6 +145,7 @@ function WeatherPage() {
 
       {report && assessment && (
         <>
+          <SprayAdvisorCard advice={advice} />
           <RiskExplainer assessment={assessment} />
           <WeatherMetrics report={report} />
           <WeatherAlerts alerts={report.alerts} />

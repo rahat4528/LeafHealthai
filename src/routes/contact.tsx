@@ -9,9 +9,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useLang } from "@/lib/i18n";
 
-const TITLE = "Contact us | LeafCheck";
+const TITLE = "Contact us | Crop Guardian";
 const DESCRIPTION =
-  "Send a note to the LeafCheck team about a wrong result, a missing plant, or an idea.";
+  "Send a note to the Crop Guardian team about a diagnosis result, a regional crop issue, or an idea.";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
