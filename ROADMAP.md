@@ -20,16 +20,12 @@ To build an inclusive, accessible **AgriSphere Intelligence Layer** spanning fro
 - [x] **Multilingual Localization**: Native agronomic vocabulary support for English, Bengali (বাংলা), and Hindi (हिन्दी).
 - [x] **Comprehensive Offline Knowledge Base**: 100+ disease, pest, and nutrient entries with high-impact regional disease filters (Bangladesh & India).
 - [x] **Diagnostic PDF Reports**: One-click downloadable field reports for extension officers and input suppliers.
-
----
-
-## 🔄 In Progress (Active Hackathon Enhancements)
-
-- [ ] **Voice-First Accessibility**: Web Speech API integration with multilingual voice search and text-to-speech "Read Aloud" for low-literacy farmers.
-- [ ] **IndexedDB Persistent Offline History**: High-capacity local diagnosis database replacing localStorage to prevent quota exhaustion with high-res thumbnails.
-- [ ] **Treatment Cost & Dosage Estimator**: Real-time input cost calculations in BDT and INR based on plot size (Bigha, Acre, Decimal) with Pre-Harvest Interval (PHI) safety countdowns.
-- [ ] **Community Outbreak Reporting**: Citizen-science "Report a sighting" form pinned to the regional outbreak radar.
-- [ ] **Judge Demo Mode & Offline Simulation**: Interactive 60-second guided tour and client-side offline toggle switch for hackathon reviewers.
+- [x] **Voice-First Mode (BN / HI / EN)**: Web Speech API microphone voice search and text-to-speech "Read Aloud" on diagnoses and spray verdicts.
+- [x] **IndexedDB Persistent Offline History**: High-capacity local diagnosis database replacing localStorage to prevent quota exhaustion with high-res thumbnails.
+- [x] **Treatment Cost & Dosage Estimator**: Real-time input cost calculations in BDT and INR based on plot size (Bigha, Acre, Decimal) with Pre-Harvest Interval (PHI) safety countdowns.
+- [x] **Community Outbreak Reporting**: Citizen-science "Report a sighting" form pinned to the regional outbreak radar.
+- [x] **Judge Demo Mode & Offline Simulation**: Interactive 60-second guided tour and client-side offline toggle switch for hackathon reviewers.
+- [x] **Expert Escalation & Helplines**: Toll-free direct access to Bangladesh Krishi Call Centre (16123) and India Kisan Helpline (1800-180-1551) plus one-click WhatsApp diagnosis report sharing.
 
 ---
 
