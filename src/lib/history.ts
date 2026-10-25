@@ -1,7 +1,18 @@
 import type { AnalysisResult } from "./demo-analysis";
+import {
+  deleteDiagnosisFromDB,
+  loadDiagnosesFromDB,
+  migrateLocalStorageToIndexedDB,
+  saveDiagnosisToDB,
+} from "./history-db";
 
 const KEY = "leafcheck.history.v1";
-const LIMIT = 30;
+const LIMIT = 50;
+
+// Kick off background migration from localStorage to IndexedDB once
+if (typeof window !== "undefined") {
+  void migrateLocalStorageToIndexedDB();
+}
 
 export function loadHistory(): AnalysisResult[] {
   if (typeof window === "undefined") return [];
@@ -15,30 +26,38 @@ export function loadHistory(): AnalysisResult[] {
   }
 }
 
+export async function loadHistoryAsync(): Promise<AnalysisResult[]> {
+  return loadDiagnosesFromDB();
+}
+
 export function saveHistory(items: AnalysisResult[]) {
   if (typeof window === "undefined") return;
   try {
     window.localStorage.setItem(KEY, JSON.stringify(items.slice(0, LIMIT)));
   } catch {
-    /* storage full or blocked - history is optional */
+    /* storage full or blocked - IndexedDB handles persistent storage */
   }
 }
 
 export function addToHistory(item: AnalysisResult) {
   const next = [item, ...loadHistory().filter((entry) => entry.id !== item.id)].slice(0, LIMIT);
   saveHistory(next);
+  void saveDiagnosisToDB(item);
   return next;
 }
 
 export function updateInHistory(id: string, patch: Partial<AnalysisResult>) {
   const next = loadHistory().map((entry) => (entry.id === id ? { ...entry, ...patch } : entry));
   saveHistory(next);
+  const updatedItem = next.find((e) => e.id === id);
+  if (updatedItem) void saveDiagnosisToDB(updatedItem);
   return next;
 }
 
 export function removeFromHistory(id: string) {
   const next = loadHistory().filter((entry) => entry.id !== id);
   saveHistory(next);
+  void deleteDiagnosisFromDB(id);
   return next;
 }
 
