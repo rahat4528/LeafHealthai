@@ -22,7 +22,7 @@ An AI-powered agricultural intelligence application for leaf disease detection, 
 
 ```bash
 # Clone repository
-git clone https://github.com/Rahat69x/LeafHealthai.git
+git clone https://github.com/rahat4528/LeafHealthai.git
 cd LeafHealthai
 
 # Install dependencies
@@ -58,3 +58,10 @@ docker-compose up --build
 - **UI & Styling**: React 19, Tailwind CSS v4, Radix UI
 - **Build Tool**: Vite 8
 - **Language**: TypeScript
+
+## Contributors
+
+- **Mahamudul Hasan Rahat** ([@rahat4528](https://github.com/rahat4528)) — Creator & Lead Developer
+
+View the full contributor activity on the [GitHub Contributors Graph](https://github.com/rahat4528/LeafHealthai/graphs/contributors).
+
