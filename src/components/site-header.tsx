@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Leaf, Menu } from "lucide-react";
+import { Download, Leaf, Menu } from "lucide-react";
 
 import { LanguageSelect } from "@/components/language-select";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useLang } from "@/lib/i18n";
+import { initPwaInstallPrompt, promptInstallApp } from "@/lib/pwa";
 
 export function SiteHeader() {
   const { t } = useLang();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [canInstall, setCanInstall] = useState(false);
   const path = useRouterState({ select: (state) => state.location.pathname });
+
+  useEffect(() => {
+    return initPwaInstallPrompt((ready) => setCanInstall(ready));
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,6 +91,19 @@ export function SiteHeader() {
 
           <LanguageSelect />
           <ThemeToggle />
+
+          {canInstall && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => void promptInstallApp()}
+              className="gap-1.5 rounded-full border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-xs font-bold font-mono"
+            >
+              <Download className="size-3.5" />
+              <span>Install PWA</span>
+            </Button>
+          )}
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>

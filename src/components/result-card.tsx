@@ -1,4 +1,4 @@
-import { Droplet, Leaf, ShieldCheck } from "lucide-react";
+import { Droplet, Leaf, PhoneCall, Share2, ShieldCheck } from "lucide-react";
 
 function healthLabel(score: number) {
   if (score >= 90) return "Excellent";
@@ -329,9 +329,67 @@ export function ResultCard({
         </AccordionItem>
       </Accordion>
 
-      <Button className="mt-5 min-h-11 w-full sm:w-auto" onClick={onDownload}>
-        <Leaf aria-hidden="true" /> {t("download")}
-      </Button>
+      <div className="mt-5 flex flex-wrap items-center gap-2">
+        <Button className="min-h-11 w-full sm:w-auto" onClick={onDownload}>
+          <Leaf aria-hidden="true" /> {t("download")}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => {
+            const shareText = encodeURIComponent(
+              `*Crop Guardian Diagnosis Report*\nCrop: ${result.plant}\nDiagnosis: ${result.disease} (${result.severity} Risk, ${result.confidence}% confidence)\nStatus: ${
+                result.healthy ? "Healthy" : "Infected"
+              }\nTop Action: ${
+                result.treatment?.[0] || "Consult local extension officer"
+              }\n\nVerified with Crop Guardian: https://leaf-healthai.vercel.app`,
+            );
+            window.open(`https://wa.me/?text=${shareText}`, "_blank");
+          }}
+          className="min-h-11 w-full sm:w-auto gap-2 border-emerald-500/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10"
+        >
+          <Share2 className="size-4" />
+          <span>{t("shareWhatsApp")}</span>
+        </Button>
+      </div>
+
+      {/* Expert Escalation & Helplines */}
+      <div className="mt-5 rounded-2xl border border-white/60 dark:border-white/10 bg-muted/40 p-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-0.5">
+            <p className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+              {t("askAgronomist")}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Official toll-free government agronomy helplines
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              asChild
+              size="sm"
+              variant="outline"
+              className="h-8.5 rounded-xl text-xs font-bold gap-1.5"
+            >
+              <a href="tel:16123">
+                <PhoneCall className="size-3.5 text-emerald-600" />
+                <span>BD: 16123 (Krishi Call Centre)</span>
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="sm"
+              variant="outline"
+              className="h-8.5 rounded-xl text-xs font-bold gap-1.5"
+            >
+              <a href="tel:18001801551">
+                <PhoneCall className="size-3.5 text-teal-600" />
+                <span>IN: 1800-180-1551 (Kisan Helpline)</span>
+              </a>
+            </Button>
+          </div>
+        </div>
+      </div>
 
       {onTag && <PlantTagBox value={result.plantTag} known={knownTags} onSave={onTag} />}
 

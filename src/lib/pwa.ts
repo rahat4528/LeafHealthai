@@ -39,3 +39,30 @@ export function registerServiceWorker() {
     });
   });
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let deferredPrompt: any = null;
+
+export function initPwaInstallPrompt(onReady?: (ready: boolean) => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handler = (e: any) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    onReady?.(true);
+  };
+  window.addEventListener("beforeinstallprompt", handler);
+  return () => window.removeEventListener("beforeinstallprompt", handler);
+}
+
+export async function promptInstallApp(): Promise<boolean> {
+  if (!deferredPrompt) return false;
+  try {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    return outcome === "accepted";
+  } catch {
+    return false;
+  }
+}
