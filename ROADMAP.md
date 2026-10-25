@@ -10,20 +10,30 @@ To build an inclusive, accessible **AgriSphere Intelligence Layer** spanning fro
 
 ---
 
-## 📍 v1.0 — Current Production Release (Hackathon MVP)
+## ✅ Done (Production Features)
 
-- [x] Dual-stage computer vision leaf & fruit disease detection with bounding box annotations.
-- [x] Explainable pathology with visual symptom hotspots and confidence scoring.
-- [x] Localized spray advisor with real-time weather risk mitigation (wind drift, rainfall wash-off, heat stress).
-- [x] Regional outbreak probability tracking for South Asian agro-climatic zones.
-- [x] PWA offline caching with queued diagnostic sync when connection returns.
-- [x] Multilingual AI Plant Doctor with support for English, Bengali (বাংলা), and Hindi (हिन्दी).
-- [x] 100+ disease offline knowledge encyclopedia with organic and chemical treatment guides.
-- [x] PDF health report generation for agricultural extension officers.
+- [x] **Dual-Stage Leaf & Fruit Computer Vision**: Multi-leaf bounding boxes, mask outlines, severity scores, and organic vs. chemical treatment regimens.
+- [x] **Explainable Pathology Visualizer**: Symptom hotspot detection with plain-language diagnostic reasoning.
+- [x] **Climate-Smart Spray Decision AI**: Real-time spray viability verdict (wind drift, rain wash-off, temperature thresholds) and 48-hour ranked windows.
+- [x] **Regional Outbreak Epidemiology Watch**: Live risk radar for South Asian agro-zones (Dhaka, Rajshahi, Rangpur, Sylhet, Khulna) with micro-climate risk triggers.
+- [x] **PWA Offline-First Architecture**: Service worker caching of application shell, styles, and encyclopedic data with background sync queue for deep-field scans.
+- [x] **Multilingual Localization**: Native agronomic vocabulary support for English, Bengali (বাংলা), and Hindi (हिन्दी).
+- [x] **Comprehensive Offline Knowledge Base**: 100+ disease, pest, and nutrient entries with high-impact regional disease filters (Bangladesh & India).
+- [x] **Diagnostic PDF Reports**: One-click downloadable field reports for extension officers and input suppliers.
 
 ---
 
-## 🚀 v2.0 (Target: Q1 2027) — Field-Level Intelligence & Universal Access
+## 🔄 In Progress (Active Hackathon Enhancements)
+
+- [ ] **Voice-First Accessibility**: Web Speech API integration with multilingual voice search and text-to-speech "Read Aloud" for low-literacy farmers.
+- [ ] **IndexedDB Persistent Offline History**: High-capacity local diagnosis database replacing localStorage to prevent quota exhaustion with high-res thumbnails.
+- [ ] **Treatment Cost & Dosage Estimator**: Real-time input cost calculations in BDT and INR based on plot size (Bigha, Acre, Decimal) with Pre-Harvest Interval (PHI) safety countdowns.
+- [ ] **Community Outbreak Reporting**: Citizen-science "Report a sighting" form pinned to the regional outbreak radar.
+- [ ] **Judge Demo Mode & Offline Simulation**: Interactive 60-second guided tour and client-side offline toggle switch for hackathon reviewers.
+
+---
+
+## 🔮 Next (Future Milestones)
 
 ### 1. Satellite & Drone Remote Sensing Integration
 
