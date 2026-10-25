@@ -14,6 +14,7 @@ import {
 import { toast } from "sonner";
 
 import { OutbreakPanel } from "@/components/outbreak-panel";
+import { ReportSightingModal } from "@/components/report-sighting-modal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -222,13 +223,20 @@ function OutbreakPage() {
             {t("demoData")}
           </span>
         </div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl font-['Outfit']">
-          Regional Outbreak Watch & Map
-        </h1>
-        <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
-          Predictive disease tracking powered by agricultural micro-climate modeling and anonymous
-          farmer scouting reports. Detect outbreaks before they reach your acreage.
-        </p>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl font-['Outfit']">
+              Regional Outbreak Watch & Map
+            </h1>
+            <p className="mt-1 max-w-2xl text-sm text-muted-foreground sm:text-base">
+              Predictive disease tracking powered by agricultural micro-climate modeling and
+              anonymous farmer scouting reports. Detect outbreaks before they reach your acreage.
+            </p>
+          </div>
+          <div className="shrink-0 self-start sm:self-auto">
+            <ReportSightingModal onReportAdded={(rep) => setReports((prev) => [rep, ...prev])} />
+          </div>
+        </div>
       </header>
 
       {/* 1. Regional Risk Grid (The Core Differentiator) */}

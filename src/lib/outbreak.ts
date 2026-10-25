@@ -121,6 +121,13 @@ export function reportScan(scan: AnalysisResult, latitude?: number, longitude?: 
   return next;
 }
 
+export function addCommunityReport(report: DiseaseReport): DiseaseReport[] {
+  const current = loadReports();
+  const next = [report, ...current.filter((item) => item.id !== report.id)].slice(-400);
+  saveReports(next);
+  return next;
+}
+
 export function clearReports() {
   saveReports([]);
 }
