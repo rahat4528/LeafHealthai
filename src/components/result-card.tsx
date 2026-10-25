@@ -16,6 +16,7 @@ import { YieldCard } from "@/components/yield-card";
 import { NutrientCard } from "@/components/nutrient-card";
 import { PestCard } from "@/components/pest-card";
 import { TreatmentPlanCard } from "@/components/treatment-plan-card";
+import { VoiceSpeakButton } from "@/components/voice-button";
 import {
   Accordion,
   AccordionContent,
@@ -97,17 +98,26 @@ export function ResultCard({
             {result.place ? ` · ${result.place}` : ""}
           </p>
         </div>
-        <Badge
-          variant="outline"
-          className={`shrink-0 rounded-full border-white/60 dark:border-white/15 px-3 py-1 shadow-sm backdrop-blur-md ${
-            result.healthy
-              ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
-              : "bg-coral/20 text-coral"
-          }`}
-        >
-          <Leaf className="size-3.5" aria-hidden="true" />{" "}
-          {result.healthy ? t("healthy") : t("diseased")}
-        </Badge>
+        <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <VoiceSpeakButton
+            text={`${result.plant}. ${result.disease}. ${
+              result.healthy ? "Healthy" : `${result.severity} risk`
+            }. Confidence ${result.confidence}%. ${
+              result.treatment?.[0] ? `Recommended action: ${result.treatment[0]}` : ""
+            }`}
+          />
+          <Badge
+            variant="outline"
+            className={`rounded-full border-white/60 dark:border-white/15 px-3 py-1 shadow-sm backdrop-blur-md ${
+              result.healthy
+                ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                : "bg-coral/20 text-coral"
+            }`}
+          >
+            <Leaf className="size-3.5" aria-hidden="true" />{" "}
+            {result.healthy ? t("healthy") : t("diseased")}
+          </Badge>
+        </div>
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">

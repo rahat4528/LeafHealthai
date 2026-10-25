@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { VoiceSpeakButton } from "@/components/voice-button";
 import type { SprayAdvice } from "@/lib/spray-advisor";
 
 const DECISION_CONFIG = {
@@ -68,11 +69,16 @@ export function SprayAdvisorCard({ advice }: { advice: SprayAdvice }) {
             </div>
           </div>
 
-          <Badge
-            className={`px-3 py-1 text-xs font-extrabold uppercase font-mono shadow-xs ${config.badgeTone}`}
-          >
-            {config.badgeLabel}
-          </Badge>
+          <div className="flex items-center gap-2">
+            <VoiceSpeakButton
+              text={`${advice.headline}. ${config.subtext}. ${advice.reasons.join(". ")}`}
+            />
+            <Badge
+              className={`px-3 py-1 text-xs font-extrabold uppercase font-mono shadow-xs ${config.badgeTone}`}
+            >
+              {config.badgeLabel}
+            </Badge>
+          </div>
         </div>
       </CardHeader>
 

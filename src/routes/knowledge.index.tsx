@@ -4,6 +4,7 @@ import { Droplet, Leaf, ShieldCheck, X } from "lucide-react";
 
 import { FilterSelect } from "@/components/knowledge/filter-select";
 import { KnowledgeCard } from "@/components/knowledge/knowledge-card";
+import { VoiceMicButton } from "@/components/voice-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -136,18 +137,21 @@ function KnowledgePage() {
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search a disease, pest, plant or symptom…"
             aria-label="Search knowledge center"
-            className="h-14 rounded-2xl pl-12 pr-12 text-base"
+            className="h-14 rounded-2xl pl-12 pr-24 text-base"
           />
-          {query ? (
-            <button
-              type="button"
-              onClick={() => setQuery("")}
-              aria-label="Clear search"
-              className="absolute right-3 top-1/2 grid size-9 -translate-y-1/2 place-items-center rounded-full text-muted-foreground hover:bg-accent"
-            >
-              <X className="size-4" aria-hidden="true" />
-            </button>
-          ) : null}
+          <div className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center gap-1.5">
+            {query ? (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                aria-label="Clear search"
+                className="grid size-8 place-items-center rounded-full text-muted-foreground hover:bg-accent"
+              >
+                <X className="size-4" aria-hidden="true" />
+              </button>
+            ) : null}
+            <VoiceMicButton onResult={(text) => setQuery(text)} />
+          </div>
         </div>
 
         {suggestions.length > 0 && query.trim().length > 1 ? (
