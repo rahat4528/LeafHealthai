@@ -15,7 +15,7 @@ import { OfflineBanner } from "../components/offline-banner";
 import { JudgeDemoBar } from "../components/judge-demo-bar";
 import { SiteFooter } from "../components/site-footer";
 import { SiteHeader } from "../components/site-header";
-import { LanguageProvider } from "../lib/i18n";
+import { LanguageProvider, useLang } from "../lib/i18n";
 import { ThemeProvider } from "../lib/theme";
 import { registerServiceWorker } from "../lib/pwa";
 
@@ -81,30 +81,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Crop Guardian — AI Agronomist for Every Farmer" },
+      { title: "Crop Guardian — Agronomy Assistant for Every Farmer" },
       {
         name: "description",
         content:
-          "Offline-first AI agronomist helping rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice.",
+          "Offline-first crop health assistant helping rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice.",
       },
       { name: "author", content: "Crop Guardian · LeafHealthAI" },
       { name: "theme-color", content: "#16a34a" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-title", content: "Crop Guardian" },
-      { property: "og:title", content: "Crop Guardian — AI Agronomist for Every Farmer" },
+      { property: "og:title", content: "Crop Guardian — Agronomy Assistant for Every Farmer" },
       {
         property: "og:description",
         content:
-          "Offline-first AI agronomist helping rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice.",
+          "Offline-first crop health assistant helping rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@CropGuardian" },
-      { name: "twitter:title", content: "Crop Guardian — AI Agronomist for Every Farmer" },
+      { name: "twitter:title", content: "Crop Guardian — Agronomy Assistant for Every Farmer" },
       {
         name: "twitter:description",
         content:
-          "Offline-first AI agronomist helping rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice.",
+          "Offline-first crop health assistant helping rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice.",
       },
       { property: "og:image", content: "/og-image.png" },
       { name: "twitter:image", content: "/og-image.png" },
@@ -139,6 +139,20 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function GlobalDisclaimerBar() {
+  const { t } = useLang();
+  return (
+    <aside
+      aria-label="Legal disclaimer"
+      className="border-t border-border/40 bg-muted/40 px-4 py-2.5 text-center text-xs text-muted-foreground"
+    >
+      <div className="mx-auto max-w-6xl">
+        <p>{t("disclaimer.text")}</p>
+      </div>
+    </aside>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -159,6 +173,7 @@ function RootComponent() {
               <Outlet />
             </main>
             <SiteFooter />
+            <GlobalDisclaimerBar />
           </div>
           <Toaster richColors closeButton position="top-right" />
         </LanguageProvider>

@@ -4,10 +4,8 @@ import {
   Activity,
   AlertTriangle,
   CloudRain,
-  Droplet,
   Info,
   MapPin,
-  ShieldAlert,
   ShieldCheck,
   TrendingUp,
 } from "lucide-react";
@@ -35,7 +33,7 @@ import { useLang } from "@/lib/i18n";
 
 const TITLE = "Regional Disease Outbreak Watch | Crop Guardian";
 const DESCRIPTION =
-  "Real-time regional plant pathology monitoring: AI-driven disease spread prediction, micro-climate weather triggers, and proactive field prevention across South Asian agro-zones.";
+  "Real-time regional plant pathology monitoring: Epidemiological risk index (Demo data), micro-climate weather triggers, and proactive field prevention across South Asian agro-zones.";
 
 export const Route = createFileRoute("/outbreaks")({
   head: () => ({
@@ -193,7 +191,6 @@ function OutbreakPage() {
 
   useEffect(() => {
     const loaded = loadReports();
-    // If no local reports exist yet, provide realistic regional baseline telemetry for demo
     if (loaded.length === 0) {
       setReports(BASELINE_REPORTS);
     } else {
@@ -212,12 +209,24 @@ function OutbreakPage() {
 
   return (
     <div className="mx-auto max-w-5xl space-y-10 px-4 py-8 sm:px-6">
+      {/* FIX 19: Full-width non-dismissible amber demo warning banner */}
+      <div className="rounded-2xl border-2 border-amber-500/60 bg-amber-500/15 p-4 text-xs font-bold text-amber-950 dark:text-amber-200 shadow-sm flex items-start gap-3">
+        <AlertTriangle className="size-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+        <div className="space-y-1">
+          <p className="font-extrabold uppercase tracking-wide">{t("outbreaks.demoWarning")}</p>
+          <p className="text-[11px] font-normal text-amber-900/90 dark:text-amber-300/90">
+            Risk index is derived from seasonal temperature/humidity heuristics. This is demo data —
+            not live government surveillance.
+          </p>
+        </div>
+      </div>
+
       {/* Header */}
       <header className="space-y-2">
         <div className="flex flex-wrap items-center gap-2">
           <div className="inline-flex items-center gap-2 rounded-full border border-destructive/30 bg-destructive/10 px-3 py-1 text-xs font-semibold text-destructive-ink">
             <span className="size-2 rounded-full bg-destructive animate-pulse" />
-            Live Epidemiology Telemetry · South Asian Agro-Zones
+            Epidemiological Risk Index (Demo data) · South Asian Agro-Zones
           </div>
           <span className="rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-xs font-mono font-medium text-amber-800 dark:text-amber-300">
             {t("demoData")}
@@ -251,7 +260,7 @@ function OutbreakPage() {
             </h2>
             <p className="text-xs text-muted-foreground">
               Current disease probability models based on 7-day cumulative rainfall, humidity, and
-              temperature.
+              temperature heuristics. (Demo data)
             </p>
           </div>
           <span className="flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
@@ -288,11 +297,16 @@ function OutbreakPage() {
                   </h3>
                 </div>
 
-                {/* Probability Meter */}
+                {/* Probability Meter with prominent (Demo) label (FIX 2) */}
                 <div className="mt-3">
-                  <div className="flex justify-between text-xs font-mono mb-1">
+                  <div className="flex justify-between items-center text-xs font-mono mb-1">
                     <span className="text-muted-foreground">Outbreak Probability</span>
-                    <span className="font-bold text-foreground">{zone.probability}%</span>
+                    <span className="flex items-center gap-1 font-bold text-foreground">
+                      <span>{zone.probability}%</span>
+                      <span className="rounded bg-amber-500/20 px-1 py-0.2 text-[9px] font-semibold text-amber-800 dark:text-amber-300">
+                        (Demo)
+                      </span>
+                    </span>
                   </div>
                   <Progress value={zone.probability} className="h-1.5" />
                 </div>
@@ -328,20 +342,34 @@ function OutbreakPage() {
         <OutbreakPanel outbreaks={outbreaks} nearby={nearby} />
       </section>
 
-      {/* 3. AI Risk Modeling Methodology Card */}
+      {/* 3. Epidemiological Risk Modeling Methodology Card (FIX 2) */}
       <section className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5 backdrop-blur-md">
         <div className="flex gap-3">
           <Info className="size-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-          <div className="space-y-1 text-sm">
-            <h3 className="font-bold text-foreground">How Crop Guardian Predicts Outbreaks</h3>
+          <div className="space-y-1.5 text-sm">
+            <div className="flex items-center gap-2">
+              <h3 className="font-bold text-foreground">
+                Epidemiological Risk Index (Demo data) Methodology
+              </h3>
+              <Badge
+                variant="outline"
+                className="border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-300 text-[10px]"
+              >
+                Demo Heuristics
+              </Badge>
+            </div>
+            <p className="text-xs font-medium text-amber-800 dark:text-amber-300">
+              Risk index is derived from seasonal temperature/humidity heuristics. This is demo data
+              — not live government surveillance.
+            </p>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Our epidemiological model integrates real-time Open-Meteo satellite weather telemetry
+              Our epidemiological model integrates Open-Meteo satellite weather telemetry
               (continuous leaf wetness hours, dew point cycles, ambient temperatures) with
               established disease threshold formulas validated by the{" "}
               <strong>Bangladesh Agricultural Research Institute (BARI)</strong> and the{" "}
               <strong>International Rice Research Institute (IRRI)</strong>. When climatic
-              conditions match pathogen reproduction windows, pre-symptom alerts are broadcast to
-              farmers across the affected district.
+              conditions match pathogen reproduction windows, advisory alerts are highlighted for
+              evaluating preventative protocols.
             </p>
           </div>
         </div>
@@ -366,7 +394,7 @@ function OutbreakPage() {
                   >
                     <span className="font-medium text-foreground">{item.disease}</span>
                     <Badge variant="secondary" className="font-mono text-xs">
-                      {item.count} reports
+                      {item.count} reports (Demo)
                     </Badge>
                   </li>
                 ))}
@@ -407,18 +435,33 @@ function OutbreakPage() {
                 }}
               />
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-xs"
-              onClick={() => {
-                clearReports();
-                setReports([]);
-                toast.success("All stored local reports cleared.");
-              }}
-            >
-              Clear Local Stored Reports
-            </Button>
+            <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border/40">
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-xs"
+                onClick={() => {
+                  clearReports();
+                  setReports([]);
+                  toast.success("All stored local reports cleared.");
+                }}
+              >
+                Clear Local Stored Reports
+              </Button>
+              {/* FIX 8: Clear my reports button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-xs text-muted-foreground hover:text-destructive"
+                onClick={() => {
+                  clearReports();
+                  setReports([]);
+                  toast.success("My community reports cleared.");
+                }}
+              >
+                Clear my reports
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>

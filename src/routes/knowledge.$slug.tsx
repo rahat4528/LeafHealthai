@@ -204,7 +204,7 @@ function KnowledgeDetail() {
 
       <div className="mt-10 rounded-2xl border border-dashed p-5 text-center">
         <p className="text-sm text-muted-foreground">
-          Seeing these symptoms on your own plant? Scan a leaf photo for an AI diagnosis.
+          Seeing these symptoms on your own plant? Scan a leaf photo for an instant crop diagnosis.
         </p>
         <Button asChild className="mt-3 rounded-xl">
           <Link to="/">Scan a leaf</Link>

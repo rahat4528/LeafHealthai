@@ -84,9 +84,9 @@ function AboutPage() {
               project to help farmers identify plant diseases quickly and accurately.
             </p>
             <p>
-              Our goal is to build innovative, accessible, and AI-powered solutions that improve
-              crop health, increase productivity, and contribute to the future of smart agriculture
-              in Bangladesh.
+              Our goal is to build innovative, accessible, and practical solutions that improve crop
+              health, increase productivity, and contribute to the future of smart agriculture in
+              Bangladesh.
             </p>
             <p>
               This is just the beginning—we are committed to continuously improving our platform and

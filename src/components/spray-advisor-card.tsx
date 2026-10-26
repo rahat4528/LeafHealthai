@@ -41,7 +41,13 @@ const DECISION_CONFIG = {
   },
 } as const;
 
-export function SprayAdvisorCard({ advice }: { advice: SprayAdvice }) {
+export function SprayAdvisorCard({
+  advice,
+  isStale = false,
+}: {
+  advice: SprayAdvice;
+  isStale?: boolean;
+}) {
   const config = DECISION_CONFIG[advice.decision] || DECISION_CONFIG.wait;
   const DecisionIcon = config.icon;
 
@@ -61,7 +67,7 @@ export function SprayAdvisorCard({ advice }: { advice: SprayAdvice }) {
             </span>
             <div>
               <CardTitle className="text-xl font-bold tracking-tight text-foreground font-['Outfit']">
-                Climate-Smart Spray Decision AI
+                Climate-Smart Spray Decision Advisor
               </CardTitle>
               <p className="text-xs text-muted-foreground">
                 Prevents chemical wash-off, drift contamination, and wasted fungicide inputs.
@@ -70,6 +76,14 @@ export function SprayAdvisorCard({ advice }: { advice: SprayAdvice }) {
           </div>
 
           <div className="flex items-center gap-2">
+            {isStale && (
+              <Badge
+                variant="outline"
+                className="border-amber-500/50 bg-amber-500/15 text-amber-800 dark:text-amber-200 text-[10px] font-bold"
+              >
+                Cached data
+              </Badge>
+            )}
             <VoiceSpeakButton
               text={`${advice.headline}. ${config.subtext}. ${advice.reasons.join(". ")}`}
             />

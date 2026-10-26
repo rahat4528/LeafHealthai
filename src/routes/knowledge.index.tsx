@@ -9,10 +9,17 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   ALL_DIFFICULTY,
   ALL_PLANTS,
   ALL_SEASONS,
   ALL_WEATHER,
+  DATA_SOURCES,
   KNOWLEDGE_STATS,
   SEVERITY_ORDER,
   SOURCES,
@@ -445,7 +452,44 @@ function KnowledgePage() {
         )}
       </section>
 
-      <section className="mt-12 rounded-3xl border bg-card p-6 sm:p-8" aria-label="Sources">
+      <section
+        className="mt-8 rounded-3xl border border-white/60 dark:border-white/10 bg-card p-6 shadow-sm"
+        aria-label="Data Sources Accordion"
+      >
+        <Accordion type="single" collapsible defaultValue="sources">
+          <AccordionItem value="sources" className="border-none">
+            <AccordionTrigger className="text-base font-bold text-foreground py-0 hover:no-underline">
+              <span>📚 Data Sources & Agricultural Protocols</span>
+            </AccordionTrigger>
+            <AccordionContent className="pt-4 text-xs text-muted-foreground space-y-3">
+              <p className="font-semibold text-foreground text-sm">
+                Disease information compiled from BARC, ICAR, FAO, and PlantVillage. Always verify
+                with local extension services.
+              </p>
+              <div className="grid gap-2.5 sm:grid-cols-2">
+                {DATA_SOURCES.map((s) => (
+                  <div
+                    key={s.id}
+                    className="rounded-xl border border-border/60 bg-muted/30 p-3 space-y-1"
+                  >
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-bold text-foreground hover:text-primary hover:underline"
+                    >
+                      {s.name}
+                    </a>
+                    <p className="text-[11px] text-muted-foreground">{s.note}</p>
+                  </div>
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </section>
+
+      <section className="mt-8 rounded-3xl border bg-card p-6 sm:p-8" aria-label="Sources">
         <h2 className="text-lg font-bold text-foreground">Where this information comes from</h2>
         <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
           Each guide is written in our own words from published guidance by universities, government

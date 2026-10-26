@@ -1,5 +1,6 @@
 import type { AnalysisResult } from "./demo-analysis";
 import { AREAS, type Area } from "./regions";
+import { toast } from "sonner";
 
 /**
  * Outbreak watch. Reports are anonymous: only disease, area and date are kept,
@@ -123,7 +124,23 @@ export function reportScan(scan: AnalysisResult, latitude?: number, longitude?: 
 
 export function addCommunityReport(report: DiseaseReport): DiseaseReport[] {
   const current = loadReports();
-  const next = [report, ...current.filter((item) => item.id !== report.id)].slice(-400);
+  const now = Date.now();
+  const isDuplicate = current.some((item) => {
+    const sameAttrs =
+      item.area.toLowerCase() === report.area.toLowerCase() &&
+      item.plant.toLowerCase() === report.plant.toLowerCase() &&
+      item.disease.toLowerCase() === report.disease.toLowerCase();
+    const timeDiff = now - new Date(item.date).getTime();
+    return sameAttrs && timeDiff < 60 * 60 * 1000;
+  });
+
+  if (isDuplicate) {
+    toast.error("You already reported this recently.");
+    return current;
+  }
+
+  // Hard cap: maximum 20 community reports stored locally (FIFO: newest first, max 20)
+  const next = [report, ...current.filter((item) => item.id !== report.id)].slice(0, 20);
   saveReports(next);
   return next;
 }

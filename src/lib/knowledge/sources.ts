@@ -5,6 +5,35 @@ export interface KnowledgeSource {
   scope: string;
 }
 
+// Sources for the Crop Guardian knowledge base
+// Last verified: October 2026
+export const DATA_SOURCES = [
+  {
+    id: "barc",
+    name: "Bangladesh Agricultural Research Council (BARC)",
+    url: "https://barc.gov.bd",
+    note: "Disease symptom descriptions and treatment protocols for Bangladesh conditions",
+  },
+  {
+    id: "icar",
+    name: "Indian Council of Agricultural Research (ICAR)",
+    url: "https://icar.org.in",
+    note: "Rice, wheat, and pulse disease management guidelines",
+  },
+  {
+    id: "fao",
+    name: "FAO Plant Production and Protection Division",
+    url: "https://www.fao.org/plant-production-protection",
+    note: "Integrated pest management recommendations",
+  },
+  {
+    id: "plantvillage",
+    name: "PlantVillage / Penn State University",
+    url: "https://plantvillage.psu.edu",
+    note: "Open-access disease image and symptom database",
+  },
+];
+
 /**
  * Public plant-health bodies whose published guidance was used as the factual
  * base for this library. Every card is written in our own words; these links

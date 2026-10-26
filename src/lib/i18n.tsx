@@ -94,13 +94,30 @@ const EN = {
   phiSafety: "Pre-harvest interval (PHI)",
   reportSighting: "Report a sighting",
   judgeDemo: "Judge Demo Mode",
-  simulateOffline: "Simulate Offline",
+  simulateOffline: "Demo Offline UI Mode",
   tourStep: "Step",
   tourNext: "Next step",
   tourClose: "Exit tour",
   askAgronomist: "Ask an agronomist",
   callKrishi: "Call Krishi Helpline",
   shareWhatsApp: "Share on WhatsApp",
+  // New keys for judge issues resolution
+  "weather.cachedBanner": "⚠️ Showing cached weather. Connect to refresh.",
+  "weather.offlineCard": "No weather data available offline.",
+  "disclaimer.text":
+    "⚠️ Crop Guardian provides educational information only. Always verify with a certified agronomist before applying treatments. Not liable for crop loss.",
+  "judgeDemo.offlineUIMode": "Demo Offline UI Mode",
+  "judgeDemo.offlineUINote":
+    "Shows offline UI states. For true offline testing, use DevTools → Network → Offline.",
+  "consent.locationLabel": "I consent to sharing my approximate location for this report.",
+  "consent.locationNote": "GPS is only captured when this consent is enabled.",
+  "pdf.banglaModeNote": "PDF exported as image (Bangla font mode).",
+  "outbreaks.demoWarning":
+    "⚠️ DEMO DATA — Risk percentages on this page are illustrative only. They are NOT live government surveillance data. Do not make field decisions based solely on these figures.",
+  "onboarding.step1": "Take a photo of a sick leaf → get instant disease name",
+  "onboarding.step2": "Check today's spray safety before spraying",
+  "onboarding.step3": "Browse 100+ diseases — works offline",
+  "onboarding.dismiss": "Got it",
 };
 
 type Dict = typeof EN;
@@ -178,13 +195,29 @@ const BN: Partial<Dict> = {
   phiSafety: "ফসল তোলার পূর্ববর্তী সুরক্ষা সময় (PHI)",
   reportSighting: "রোগের প্রাদুর্ভাব জানান",
   judgeDemo: "বিচারক ডেমো মোড",
-  simulateOffline: "অফলাইন সিমুলেট করুন",
+  simulateOffline: "ডেমো অফলাইন ইউআই মোড",
   tourStep: "ধাপ",
   tourNext: "পরবর্তী ধাপ",
   tourClose: "ট্যুর বন্ধ করুন",
   askAgronomist: "কৃষি কর্মকর্তার পরামর্শ",
   callKrishi: "কৃষি কল সেন্টার (১৬১২৩)",
   shareWhatsApp: "হোয়াটসঅ্যাপে পাঠান",
+  "weather.cachedBanner": "⚠️ সংরক্ষিত আবহাওয়া দেখানো হচ্ছে। রিফ্রেশ করতে সংযোগ করুন।",
+  "weather.offlineCard": "অফলাইনে কোনো আবহাওয়া তথ্য নেই।",
+  "disclaimer.text":
+    "⚠️ ক্রপ গার্ডিয়ান শুধুমাত্র শিক্ষামূলক তথ্য প্রদান করে। চিকিৎসার পূর্বে সর্বদা প্রত্যয়িত কৃষিবিদের সাথে নিশ্চিত করুন। ফসল ক্ষতির জন্য দায়বদ্ধ নয়।",
+  "judgeDemo.offlineUIMode": "ডেমো অফলাইন ইউআই মোড",
+  "judgeDemo.offlineUINote":
+    "অফলাইন ইউআই দেখায়। প্রকৃত অফলাইন পরীক্ষার জন্য DevTools → Network → Offline ব্যবহার করুন।",
+  "consent.locationLabel": "আমি এই রিপোর্টের জন্য আমার আনুমানিক অবস্থান ভাগ করতে সম্মতি দিচ্ছি।",
+  "consent.locationNote": "শুধুমাত্র এই সম্মতি সক্ষম থাকলেই জিপিএস গ্রহণ করা হয়।",
+  "pdf.banglaModeNote": "পিডিএফ ইমেজ মোডে রপ্তানি করা হয়েছে (বাংলা ফন্ট মোড)।",
+  "outbreaks.demoWarning":
+    "⚠️ ডেমো তথ্য — এই পৃষ্ঠার ঝুঁকির শতাংশ কেবল উদাহরণের জন্য। এগুলো সরাসরি সরকারি নজরদারি তথ্য নয়। শুধুমাত্র এই তথ্যের উপর ভিত্তি করে মাঠের সিদ্ধান্ত নেবেন না।",
+  "onboarding.step1": "অসুস্থ পাতার ছবি তুলুন → তাৎক্ষণিক রোগের নাম জানুন",
+  "onboarding.step2": "স্প্রে করার আগে আজকের স্প্রে নিরাপত্তা যাচাই করুন",
+  "onboarding.step3": "১০০+ রোগ ব্রাউজ করুন — অফলাইনে কাজ করে",
+  "onboarding.dismiss": "বুঝেছি",
 };
 
 const HI: Partial<Dict> = {
@@ -260,13 +293,29 @@ const HI: Partial<Dict> = {
   phiSafety: "कटाई पूर्व सुरक्षा अवधि (PHI)",
   reportSighting: "प्रकोप की सूचना दें",
   judgeDemo: "जज डेमो मोड",
-  simulateOffline: "ऑफ़लाइन सिमुलेट करें",
+  simulateOffline: "डेमो ऑफलाइन यूआई मोड",
   tourStep: "कदम",
   tourNext: "अगला कदम",
   tourClose: "टूर समाप्त करें",
   askAgronomist: "कृषि विशेषज्ञ सलाह",
   callKrishi: "किसान कॉल सेंटर (1800-180-1551)",
   shareWhatsApp: "व्हाट्सएप पर भेजें",
+  "weather.cachedBanner": "⚠️ कैश्ड मौसम दिखाया जा रहा है। रीफ्रेश करने के लिए कनेक्ट करें।",
+  "weather.offlineCard": "ऑफ़लाइन कोई मौसम डेटा उपलब्ध नहीं है।",
+  "disclaimer.text":
+    "⚠️ क्रॉप गार्जियन केवल शैक्षणिक जानकारी प्रदान करता है। उपचार लागू करने से पहले हमेशा प्रमाणित कृषि विशेषज्ञ से पुष्टि करें। फसल के नुकसान के लिए उत्तरदायी नहीं।",
+  "judgeDemo.offlineUIMode": "डेमो ऑफलाइन यूआई मोड",
+  "judgeDemo.offlineUINote":
+    "ऑफलाइन यूआई दिखाता है। वास्तविक ऑफलाइन परीक्षण के लिए DevTools → Network → Offline का उपयोग करें।",
+  "consent.locationLabel": "मैं इस रिपोर्ट के लिए अपना अनुमानित स्थान साझा करने की सहमति देता हूँ।",
+  "consent.locationNote": "केवल इस सहमति के सक्षम होने पर ही जीपीएस कैप्चर किया जाता है।",
+  "pdf.banglaModeNote": "पीडीएफ इमेज मोड में निर्यात किया गया (बांग्ला फॉन्ट मोड)।",
+  "outbreaks.demoWarning":
+    "⚠️ डेमो डेटा — इस पृष्ठ पर जोखिम प्रतिशत केवल उदाहरण के लिए हैं। ये लाइव सरकारी निगरानी डेटा नहीं हैं। केवल इन आंकड़ों के आधार पर खेत के निर्णय न लें।",
+  "onboarding.step1": "बीमार पत्ती की फोटो लें → तुरंत बीमारी का नाम पाएं",
+  "onboarding.step2": "छिड़काव करने से पहले आज की स्प्रे सुरक्षा जांचें",
+  "onboarding.step3": "100+ बीमारियों को ब्राउज़ करें — ऑफलाइन काम करता है",
+  "onboarding.dismiss": "समझ गया",
 };
 
 const DICTS: Record<Lang, Partial<Dict>> = { en: EN, bn: BN, hi: HI };

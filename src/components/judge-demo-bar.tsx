@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link, useRouter } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import {
   Award,
-  CheckCircle2,
   ChevronRight,
   Compass,
-  Eye,
-  Info,
-  ShieldCheck,
+  Pause,
+  Play,
+  RotateCcw,
   Wifi,
   WifiOff,
   X,
 } from "lucide-react";
 import { toast } from "sonner";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { useLang } from "@/lib/i18n";
@@ -47,7 +45,7 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     step: 3,
-    title: "Climate-Smart Spray Decision AI",
+    title: "Climate-Smart Spray Decision Advisor",
     route: "/weather",
     description:
       "Check the instant safe/don't-spray verdict, rain wash-off warnings, and ranked 48h spray windows.",
@@ -67,11 +65,23 @@ export function JudgeDemoBar() {
   const [open, setOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(1);
   const [simulatedOffline, setSimulatedOffline] = useState(false);
+  // FIX 12: Pause on interrupt state & 60s countdown
+  const [paused, setPaused] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(60);
 
   useEffect(() => {
     const isSim = window.sessionStorage.getItem("cropguardian:offline-sim") === "true";
     if (isSim) setSimulatedOffline(true);
   }, []);
+
+  // 60-second countdown timer with pause/resume support
+  useEffect(() => {
+    if (!open || paused || timeLeft <= 0) return;
+    const interval = window.setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => window.clearInterval(interval);
+  }, [open, paused, timeLeft]);
 
   const toggleSimulateOffline = (val: boolean) => {
     setSimulatedOffline(val);
@@ -83,7 +93,7 @@ export function JudgeDemoBar() {
 
     if (val) {
       window.dispatchEvent(new Event("offline"));
-      toast.warning("Simulated Offline Mode ENABLED! Testing PWA resilience and cached data.");
+      toast.warning("Demo Offline UI Mode enabled (showing cached UI states).");
     } else {
       window.dispatchEvent(new Event("online"));
       toast.success("Online Network Restored.");
@@ -104,16 +114,22 @@ export function JudgeDemoBar() {
     }
   };
 
+  const handleOpen = () => {
+    setOpen(true);
+    setPaused(false);
+    if (timeLeft <= 0) setTimeLeft(60);
+  };
+
   return (
     <div className="relative z-50">
-      {/* Top Banner if Offline Simulation is ACTIVE */}
+      {/* Top Banner if Offline Simulation is ACTIVE - FIX 6: Honest transparency */}
       {simulatedOffline && (
         <div className="flex items-center justify-between bg-amber-500 px-4 py-1.5 text-xs font-bold text-slate-950 shadow-md">
           <div className="flex items-center gap-2">
             <WifiOff className="size-4 animate-bounce" />
             <span>
-              [SIMULATION] Offline Mode Active — Network severed. PWA local cache & on-device
-              heuristic engine engaged.
+              [DEMO OFFLINE UI MODE] Showing offline UI states. Real network requests are not
+              blocked. For true offline testing, use DevTools → Network → Offline.
             </span>
           </div>
           <button
@@ -130,21 +146,25 @@ export function JudgeDemoBar() {
       <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2">
         <Button
           type="button"
-          onClick={() => setOpen((prev) => !prev)}
+          onClick={handleOpen}
           className="h-10 gap-2 rounded-full border border-emerald-400/50 bg-slate-950/90 hover:bg-slate-900 text-white shadow-xl backdrop-blur-xl px-4 text-xs font-bold font-['Outfit'] transition-transform duration-200 hover:scale-105"
         >
           <Award className="size-4 text-emerald-400" />
           <span>{t("judgeDemo")}</span>
           <span className="rounded-full bg-emerald-500/20 px-1.5 py-0.2 text-[10px] font-mono text-emerald-300">
-            60s Tour
+            {timeLeft > 0 ? `${timeLeft}s Tour` : "Tour Done"}
           </span>
         </Button>
       </div>
 
       {/* Guided Tour Modal / Drawer */}
+      {/* FIX 12: Clicking backdrop does NOT close modal (explicit close button only) */}
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-lg rounded-3xl border border-white/60 dark:border-white/10 bg-card p-6 shadow-2xl backdrop-blur-2xl">
+          <div
+            className="relative w-full max-w-lg rounded-3xl border border-white/60 dark:border-white/10 bg-card p-6 shadow-2xl backdrop-blur-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border/40 pb-4">
               <div className="flex items-center gap-2.5">
@@ -160,18 +180,70 @@ export function JudgeDemoBar() {
                   </p>
                 </div>
               </div>
+              {/* Explicit close button only (FIX 12) */}
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="grid size-8 place-items-center rounded-full text-muted-foreground hover:bg-accent"
+                className="grid size-8 place-items-center rounded-full text-muted-foreground hover:bg-accent hover:text-foreground"
                 aria-label="Close"
               >
                 <X className="size-4" />
               </button>
             </div>
 
-            {/* Offline Simulation Switch */}
-            <div className="mt-4 flex items-center justify-between rounded-2xl border border-white/60 dark:border-white/10 bg-muted/40 p-3.5">
+            {/* Timer & Pause/Resume Control Strip (FIX 12) */}
+            <div className="mt-3.5 flex items-center justify-between rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-xs">
+              <div className="flex items-center gap-2 font-mono font-bold text-foreground">
+                <span className="flex size-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Timer: {timeLeft}s remaining</span>
+                {paused && (
+                  <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] text-amber-800 dark:text-amber-300">
+                    PAUSED
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setPaused(!paused)}
+                  className="h-7 rounded-lg px-2.5 text-xs font-bold gap-1"
+                >
+                  {paused ? (
+                    <>
+                      <Play className="size-3 text-emerald-600" />
+                      <span>Resume</span>
+                    </>
+                  ) : (
+                    <>
+                      <Pause className="size-3 text-amber-600" />
+                      <span>Pause</span>
+                    </>
+                  )}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setTimeLeft(60)}
+                  className="h-7 size-7 p-0 rounded-lg text-muted-foreground hover:text-foreground"
+                  title="Reset 60s"
+                >
+                  <RotateCcw className="size-3" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Paused Explanation Banner */}
+            {paused && (
+              <div className="mt-2.5 rounded-xl border border-amber-500/40 bg-amber-500/15 p-2.5 text-xs text-amber-900 dark:text-amber-200">
+                ⏸ Paused — answer the judge's question, then press ▶ to resume.
+              </div>
+            )}
+
+            {/* Offline Simulation Switch - FIX 6: Transparent labelling */}
+            <div className="mt-3.5 flex items-center justify-between rounded-2xl border border-white/60 dark:border-white/10 bg-muted/40 p-3.5">
               <div className="space-y-0.5">
                 <span className="flex items-center gap-1.5 text-xs font-bold text-foreground">
                   {simulatedOffline ? (
@@ -179,21 +251,19 @@ export function JudgeDemoBar() {
                   ) : (
                     <Wifi className="size-3.5 text-emerald-500" />
                   )}
-                  {t("simulateOffline")}
+                  {t("judgeDemo.offlineUIMode")}
                 </span>
-                <p className="text-[11px] text-muted-foreground">
-                  Test PWA zero-network caching without opening DevTools
-                </p>
+                <p className="text-[11px] text-muted-foreground">{t("judgeDemo.offlineUINote")}</p>
               </div>
               <Switch
                 checked={simulatedOffline}
                 onCheckedChange={toggleSimulateOffline}
-                aria-label={t("simulateOffline")}
+                aria-label={t("judgeDemo.offlineUIMode")}
               />
             </div>
 
             {/* Steps List */}
-            <div className="mt-4 space-y-2.5">
+            <div className="mt-3.5 space-y-2.5">
               {TOUR_STEPS.map((s) => {
                 const isSelected = activeStep === s.step;
                 return (

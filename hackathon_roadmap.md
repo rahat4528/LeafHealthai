@@ -11,6 +11,7 @@
 You are NOT building from scratch. You are **repositioning + sharpening** what you have.
 
 Judges for AgriSphere AI care about:
+
 1. **Real farmer impact** (not cool tech for its own sake)
 2. **AI that actually works** in the demo
 3. **Offline / low-connectivity** story (rural farmers have poor internet)
@@ -27,7 +28,8 @@ Judges for AgriSphere AI care about:
 **Why first?** Everything else you build must support a single clear story.
 
 #### The One-Line Pitch (memorize this):
-> *"Crop Guardian: An offline-first AI agronomist that helps rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice — without reliable internet."*
+
+> _"Crop Guardian: An offline-first AI agronomist that helps rural smallholder farmers detect leaf diseases, predict outbreak risks, and get treatment advice — without reliable internet."_
 
 #### Rewrite `README.md` completely. Cover these sections:
 
@@ -41,7 +43,7 @@ Judges for AgriSphere AI care about:
 - Existing tools require constant internet
 
 ## 🌱 Our Solution
-Crop Guardian uses computer vision + Gemini AI to give every farmer 
+Crop Guardian uses computer vision + Gemini AI to give every farmer
 an AI agronomist in their pocket — even offline.
 
 ## ✨ Key Features
@@ -85,20 +87,24 @@ The `/dashboard` is the first thing judges see after login. It must tell the ent
 #### What to add/fix on `/dashboard`:
 
 **1. Impact Stats Bar (top of page)**
+
 ```
 [ 🌿 38 Diseases Detected ]  [ 🌍 12 Crops Supported ]  [ 📱 PWA Offline Ready ]  [ 🗣️ 3 Languages ]
 ```
 
 **2. Quick Action Cards (prominent, center)**
+
 ```
 [ 📸 Scan a Leaf NOW ]   [ 🌦️ Check Weather Risk ]   [ 🦠 View Outbreak Map ]
 ```
+
 These cards should be large, colorful, and immediately clickable.
 
 **3. Recent Diagnoses Feed (bottom)**
 Show 3 mock/recent diagnosis cards:
+
 - 🍅 Tomato — Early Blight — **High Risk** — Treatment: Copper fungicide
-- 🥔 Potato — Late Blight — **Medium Risk** — Treatment: Mancozeb spray  
+- 🥔 Potato — Late Blight — **Medium Risk** — Treatment: Mancozeb spray
 - 🌾 Rice — Bacterial Blight — **Low Risk** — Treatment: Seed treatment
 
 **Why this matters:** Judges open your app, see this dashboard, and immediately understand the value. No explanation needed.
@@ -110,10 +116,13 @@ Show 3 mock/recent diagnosis cards:
 The `/care` (or whichever route handles diagnosis) is your **most important feature**.
 
 #### Must-haves:
+
 1. **3 Sample Leaf Buttons** — so judges don't need to upload:
+
    ```
    [ 🍅 Try: Tomato Blight ]  [ 🥔 Try: Potato Disease ]  [ 🌾 Try: Rice Blast ]
    ```
+
    Clicking these runs a demo diagnosis instantly with pre-loaded images.
 
 2. **Result Card must show:**
@@ -131,6 +140,7 @@ The `/care` (or whichever route handles diagnosis) is your **most important feat
 Most leaf disease apps stop at diagnosis. Your `/outbreaks` page showing **regional risk maps** is what separates you.
 
 #### Make it look real:
+
 1. Add a simple map or grid of Bangladesh/South Asian regions showing risk levels:
    - 🔴 Dhaka — Tomato Early Blight: **High Risk** (last 7 days of rain)
    - 🟡 Rajshahi — Rice Blast: **Medium Risk** (high humidity forecast)
@@ -147,7 +157,9 @@ Most leaf disease apps stop at diagnosis. Your `/outbreaks` page showing **regio
 The `/weather` page should not just show weather. Frame it as **"Spray Decision AI"**.
 
 #### Key upgrade:
+
 Add a **Spray Advisory Card** at the top:
+
 ```
 🌧️ Today's Spray Advisory
 
@@ -167,6 +179,7 @@ This single feature makes judges think "oh this is actually useful for farmers" 
 The `/knowledge` and `/knowledge/:slug` pages — make them shine.
 
 #### Add these touches:
+
 1. **"Available Offline" badge** on every disease card
 2. **Search bar** with instant filter (if not already there)
 3. **Top 5 diseases by region** section:
@@ -182,6 +195,7 @@ This reinforces your offline-first story.
 Go through every page and fix these quick wins:
 
 #### Visual polish checklist:
+
 - [ ] Consistent green color theme throughout (`#16a34a` / emerald family)
 - [ ] App name shows "Crop Guardian" prominently (not just LeafHealthAI)
 - [ ] Navigation labels are clear: Diagnose | Weather | Outbreaks | Knowledge | AI Chat
@@ -205,19 +219,22 @@ Go through every page and fix these quick wins:
 # 🔮 Crop Guardian — Future Roadmap
 
 ## v2.0 (Q1 2027)
+
 - [ ] Satellite imagery integration for field-level outbreak prediction
 - [ ] WhatsApp/SMS bot for farmers without smartphones
 - [ ] Crowdsourced outbreak reporting (farmers report sightings → feeds ML model)
 - [ ] Marketplace: Connect farmers to agro-input suppliers based on their diagnosis
 
-## v3.0 (Q3 2027)  
+## v3.0 (Q3 2027)
+
 - [ ] IoT soil sensor integration (NPK + moisture + pH)
 - [ ] Yield prediction model based on disease history + weather
 - [ ] Government API integration for subsidy eligibility based on outbreak data
 - [ ] Carbon credit tracking for climate-smart practices
 
 ## Long-term Vision
-A complete AgriSphere intelligence layer: from seed selection to harvest 
+
+A complete AgriSphere intelligence layer: from seed selection to harvest
 to market — all powered by AI, accessible offline, in local languages.
 ```
 
@@ -233,14 +250,14 @@ to market — all powered by AI, accessible offline, in local languages.
 
 ## 🏆 Judge Scoring Prediction
 
-| Category | Before | After This Plan |
-|---|---|---|
-| Innovation | 5/10 | 7.5/10 |
-| Technical Execution | 6/10 | 8/10 |
-| Impact / Real-world value | 6/10 | 9/10 |
-| Presentation / UI | 5/10 | 8/10 |
-| Track Alignment (AgriSphere) | 7/10 | 9.5/10 |
-| **Overall** | **5.8/10** | **8.4/10** |
+| Category                     | Before     | After This Plan |
+| ---------------------------- | ---------- | --------------- |
+| Innovation                   | 5/10       | 7.5/10          |
+| Technical Execution          | 6/10       | 8/10            |
+| Impact / Real-world value    | 6/10       | 9/10            |
+| Presentation / UI            | 5/10       | 8/10            |
+| Track Alignment (AgriSphere) | 7/10       | 9.5/10          |
+| **Overall**                  | **5.8/10** | **8.4/10**      |
 
 ---
 
@@ -249,7 +266,7 @@ to market — all powered by AI, accessible offline, in local languages.
 Do these in order, stop when time runs out:
 
 1. ✅ **README rewrite** (1 hr) — judges read this first
-2. ✅ **Dashboard impact stats + quick actions** (45 min) 
+2. ✅ **Dashboard impact stats + quick actions** (45 min)
 3. ✅ **Diagnosis sample buttons** (45 min) — demo must work flawlessly
 4. ✅ **Spray Advisory on Weather page** (45 min) — your unique angle
 5. ✅ **Deploy to Vercel** (15 min) — live URL is mandatory

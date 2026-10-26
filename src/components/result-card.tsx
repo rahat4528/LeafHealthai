@@ -73,6 +73,68 @@ export function ResultCard({
   const confidence = confidenceLabel(result.confidence);
   const when = formatWhen(result.date);
 
+  // FIX 4: Unknown Condition Fallback Card (amber-bordered, no treatment recommendations, direct helpline)
+  if (result.confidence === 0 || result.disease === "Unrecognized Condition") {
+    return (
+      <section
+        className="animate-fade-in relative overflow-hidden rounded-3xl border-2 border-amber-500/60 bg-gradient-to-b from-amber-500/10 to-card/80 backdrop-blur-2xl p-5 shadow-lg sm:p-7"
+        aria-labelledby="unknown-result-heading"
+      >
+        <div className="flex items-start gap-3.5">
+          <div className="flex size-11 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-700 dark:text-amber-300 shrink-0 mt-0.5">
+            <Leaf className="size-5" />
+          </div>
+          <div className="min-w-0 space-y-1">
+            <Badge
+              variant="outline"
+              className="rounded-full border-amber-500/40 bg-amber-500/15 text-amber-800 dark:text-amber-300 text-xs font-bold"
+            >
+              Unrecognized Condition
+            </Badge>
+            <h2
+              id="unknown-result-heading"
+              className="text-xl font-extrabold tracking-tight text-foreground sm:text-2xl font-['Outfit']"
+            >
+              We couldn't identify this disease. Try a clearer photo.
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed pt-1">{result.about}</p>
+          </div>
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <Button
+            asChild
+            className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold gap-2 text-xs sm:text-sm"
+          >
+            <a href="tel:16123">
+              <PhoneCall className="size-4" />
+              <span>Call Agronomist (BD: 16123)</span>
+            </a>
+          </Button>
+          <Button
+            asChild
+            variant="outline"
+            className="rounded-xl font-bold gap-2 text-xs sm:text-sm"
+          >
+            <a href="tel:18001801551">
+              <PhoneCall className="size-4 text-emerald-600" />
+              <span>Kisan Helpline (IN: 1800-180-1551)</span>
+            </a>
+          </Button>
+        </div>
+
+        <div className="mt-5 rounded-2xl border border-white/60 dark:border-white/10 bg-background/60 p-4 text-xs text-muted-foreground space-y-1.5">
+          <p className="font-semibold text-foreground">Tips for a successful leaf scan:</p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Photograph in bright daylight, avoiding hard shadows and camera blur</li>
+            <li>Center a single infected leaf so lesions fill the camera frame</li>
+            <li>If symptoms persist, escalate to your local Upazila / Block extension officer</li>
+          </ul>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       className="animate-fade-in relative overflow-hidden rounded-3xl border border-white/60 dark:border-white/10 bg-gradient-to-b from-card/85 to-card/55 backdrop-blur-2xl p-5 shadow-[0_16px_40px_-16px_rgba(0,0,0,0.06)] dark:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.4)] sm:p-7"
@@ -337,10 +399,17 @@ export function ResultCard({
           type="button"
           variant="outline"
           onClick={() => {
+            const regionName = result.place
+              ? result.place
+                  .replace(/-?\d+\.\d+,\s*-?\d+\.\d+/g, "")
+                  .replace(/\s*·\s*$/, "")
+                  .trim()
+              : "";
+            const regionLine = regionName ? `\nRegion: ${regionName}` : "";
             const shareText = encodeURIComponent(
               `*Crop Guardian Diagnosis Report*\nCrop: ${result.plant}\nDiagnosis: ${result.disease} (${result.severity} Risk, ${result.confidence}% confidence)\nStatus: ${
                 result.healthy ? "Healthy" : "Infected"
-              }\nTop Action: ${
+              }${regionLine}\nTop Action: ${
                 result.treatment?.[0] || "Consult local extension officer"
               }\n\nVerified with Crop Guardian: https://leaf-healthai.vercel.app`,
             );

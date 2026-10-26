@@ -361,9 +361,57 @@ function pseudo(seed: number, index: number) {
   return value - Math.floor(value);
 }
 
-/** Picks a stable demo result from the photo's own numbers. */
+export function createUnknownConditionResult(
+  image = "",
+  quality = "fair",
+  timeMs = 0,
+): AnalysisResult {
+  return {
+    id: `unknown-${Date.now()}`,
+    plant: "Unrecognized Plant",
+    disease: "Unrecognized Condition",
+    healthy: false,
+    severity: "Medium",
+    about:
+      "This leaf pattern was not found in the offline knowledge base. Photograph the leaf again in better lighting, or escalate to an agronomist using the helpline below.",
+    symptoms: ["Pattern not recognized in offline knowledge base"],
+    causes: ["Unclear leaf features or rare plant condition"],
+    treatment: [],
+    organic: [],
+    chemical: [],
+    prevention: [
+      "Retake the photo in direct, diffused daylight",
+      "Ensure leaf surface is in sharp focus",
+      "Consult local extension officer if symptoms spread",
+    ],
+    practices: [],
+    recovery: [],
+    nextSteps: ["Photograph the leaf again in better lighting, or escalate to an agronomist."],
+    healthyLook: [],
+    confidence: 0,
+    date: new Date().toISOString(),
+    image,
+    quality,
+    predictions: [
+      { disease: "Unrecognized Condition", plant: "Unrecognized Plant", confidence: 0 },
+    ],
+    hotspots: [],
+    timeMs,
+  };
+}
+
+/** Picks a stable demo result from the photo's own numbers with instant offline response. */
 export function analyseDemo(check: ImageCheck, timeMs = 0): AnalysisResult {
+  const t0 = performance.now();
   const m = check.metrics;
+
+  // FIX 4: Heuristic fallback for unrecognized leaf patterns or low confidence
+  if (check.score < 20 || m.leafCover < 0.05) {
+    const elapsed = Math.round(performance.now() - t0);
+    console.info("[CropGuardian] offline analysis took", elapsed, "ms");
+    return createUnknownConditionResult(check.preview, check.grade, timeMs || elapsed);
+  }
+
   const seed = Math.round(
     m.brightness * 7 + m.sharpness * 3 + m.leafCover * 977 + m.colorMix * 613,
   );
@@ -373,8 +421,21 @@ export function analyseDemo(check: ImageCheck, timeMs = 0): AnalysisResult {
     ? (DISEASES.find((item) => item.healthy) as DiseaseInfo)
     : (sick[seed % sick.length] as DiseaseInfo);
 
+  if (!info) {
+    const elapsed = Math.round(performance.now() - t0);
+    console.info("[CropGuardian] offline analysis took", elapsed, "ms");
+    return createUnknownConditionResult(check.preview, check.grade, timeMs || elapsed);
+  }
+
   const base = 62 + (check.score / 100) * 34;
-  const confidence = Math.max(52, Math.min(98, Math.round(base + (seed % 5))));
+  const rawConfidence = Math.max(52, Math.min(98, Math.round(base + (seed % 5))));
+
+  if (rawConfidence < 30) {
+    const elapsed = Math.round(performance.now() - t0);
+    console.info("[CropGuardian] offline analysis took", elapsed, "ms");
+    return createUnknownConditionResult(check.preview, check.grade, timeMs || elapsed);
+  }
+  const confidence = rawConfidence;
 
   const others = DISEASES.filter(
     (item) => item.disease !== info.disease && item.healthy === info.healthy,
@@ -398,6 +459,9 @@ export function analyseDemo(check: ImageCheck, timeMs = 0): AnalysisResult {
     r: 0.06 + pseudo(seed + 77, index) * 0.09,
   }));
 
+  const elapsed = Math.round(performance.now() - t0);
+  console.info("[CropGuardian] offline analysis took", elapsed, "ms");
+
   return {
     ...info,
     id: `${Date.now()}-${seed % 9973}`,
@@ -407,11 +471,12 @@ export function analyseDemo(check: ImageCheck, timeMs = 0): AnalysisResult {
     quality: check.grade,
     predictions,
     hotspots,
-    timeMs,
+    timeMs: timeMs || elapsed,
   };
 }
 
 export function confidenceLabel(confidence: number) {
+  if (confidence === 0) return { label: "Unrecognized", tone: "low" as const };
   if (confidence > 90) return { label: "High confidence", tone: "high" as const };
   if (confidence >= 70) return { label: "Good confidence", tone: "good" as const };
   return { label: "Low confidence", tone: "low" as const };

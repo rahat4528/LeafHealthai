@@ -70,7 +70,19 @@ export function TreatmentPlanCard(props: TreatmentPlanCardProps) {
       >
         <Droplet className="size-4 text-primary" aria-hidden="true" /> Your treatment plan
       </p>
-      <p className="mt-1 text-sm text-muted-foreground">{plan.headline}</p>
+
+      {/* FIX 5B: Persistent Collapsible Legal & Dosage Disclaimer */}
+      <details className="mt-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 p-2.5 text-xs text-amber-900 dark:text-amber-200">
+        <summary className="cursor-pointer font-semibold select-none flex items-center gap-1.5">
+          <span>⚠️ Important Treatment Advisory</span>
+        </summary>
+        <p className="mt-1.5 text-[11px] leading-relaxed">
+          Before applying any treatment, consult your local agricultural extension officer. Prices
+          and dosages are approximate and may vary by district.
+        </p>
+      </details>
+
+      <p className="mt-2.5 text-sm text-muted-foreground">{plan.headline}</p>
 
       <div className="mt-3 rounded-xl border border-primary/30 bg-primary/5 p-3 text-sm">
         <p className="flex gap-2 text-foreground">

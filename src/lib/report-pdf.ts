@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { summariseFruits } from "./fruit-types";
 import { summariseLeaves } from "@/lib/leaf-types";
 import type { AnalysisResult } from "./demo-analysis";
@@ -6,9 +7,74 @@ import { formatWhen } from "./history";
 
 const MARGIN = 44;
 
-// jsPDF is ~350 kB, so it is only fetched when someone asks for a report.
+export async function exportDiagnosisPDF(result: AnalysisResult) {
+  return downloadReport(result);
+}
+
+// FIX 18: Dynamic imports — only downloads when user clicks "Export PDF"
 export async function downloadReport(result: AnalysisResult) {
-  const { default: jsPDF } = await import("jspdf");
+  const { jsPDF } = await import("jspdf");
+
+  // FIX 9: Detect if any text content contains Bengali Unicode characters (\u0980–\u09FF)
+  const allText = [
+    result.plant,
+    result.disease,
+    result.about,
+    ...(result.symptoms || []),
+    ...(result.treatment || []),
+    ...(result.nextSteps || []),
+    ...(result.causes || []),
+  ].join(" ");
+  const isBanglaLang = typeof document !== "undefined" && document.documentElement.lang === "bn";
+  const hasBengali = /[\u0980-\u09FF]/.test(allText) || isBanglaLang;
+
+  const safe = `${result.plant}-${result.disease}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+  if (hasBengali && typeof document !== "undefined") {
+    // Bengali Unicode requires canvas-based export; jsPDF text mode only supports Latin fonts without custom embedding.
+    const resultCardEl =
+      document.querySelector("section[aria-labelledby='result-heading']") ||
+      document.querySelector("section[aria-labelledby='unknown-result-heading']") ||
+      document.getElementById("result-card");
+
+    if (resultCardEl) {
+      toast.info("PDF exported as image (Bangla font mode).");
+      const html2canvas = (await import("html2canvas")).default;
+      const canvas = await html2canvas(resultCardEl as HTMLElement, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+      const imgData = canvas.toDataURL("image/png");
+      const doc = new jsPDF({ unit: "pt", format: "a4", orientation: "portrait" });
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const imgWidth = pageWidth - MARGIN * 2;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      doc.setFillColor(29, 61, 44);
+      doc.rect(0, 0, pageWidth, 50, "F");
+      doc.setTextColor(255, 255, 255);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(14);
+      doc.text("Crop Guardian — Diagnostic Report", MARGIN, 32);
+
+      doc.addImage(
+        imgData,
+        "PNG",
+        MARGIN,
+        65,
+        imgWidth,
+        Math.min(imgHeight, pageHeight - 90),
+        undefined,
+        "FAST",
+      );
+      doc.save(`leaf-report-${safe || "bangla"}.pdf`);
+      return;
+    }
+  }
+
+  // Standard Latin text rendering
   const doc = new jsPDF({ unit: "pt", format: "a4" });
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
@@ -141,6 +207,5 @@ export async function downloadReport(result: AnalysisResult) {
     pageHeight - 30,
   );
 
-  const safe = `${result.plant}-${result.disease}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
   doc.save(`leaf-report-${safe}.pdf`);
 }

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { AlertCircle, Camera, Check, MapPin, PlusCircle, ShieldAlert } from "lucide-react";
+import { AlertCircle, Check, MapPin, Navigation, PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLang } from "@/lib/i18n";
-import { addCommunityReport, type DiseaseReport } from "@/lib/outbreak";
+import { addCommunityReport, loadReports, type DiseaseReport } from "@/lib/outbreak";
 
 const PRESET_ZONES = [
   { name: "Dhaka Central Agro-Zone", city: "Dhaka", lat: 23.81, lon: 90.41 },
@@ -50,6 +50,31 @@ export function ReportSightingModal({ onReportAdded }: ReportSightingModalProps)
   const [zoneIndex, setZoneIndex] = useState(0);
   const [severity, setSeverity] = useState<"Low" | "Medium" | "High">("High");
   const [notes, setNotes] = useState("");
+  // FIX 7: Explicit location consent checkbox. Default: unchecked.
+  const [consentGps, setConsentGps] = useState(false);
+  const [gpsCoords, setGpsCoords] = useState<{ lat: number; lon: number } | null>(null);
+
+  const handleConsentToggle = (checked: boolean) => {
+    setConsentGps(checked);
+    if (checked && "geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setGpsCoords({
+            lat: Number(pos.coords.latitude.toFixed(4)),
+            lon: Number(pos.coords.longitude.toFixed(4)),
+          });
+          toast.success("Approximate location acquired for report.");
+        },
+        () => {
+          toast.info("Location permission denied. Using selected agro-zone.");
+          setConsentGps(false);
+        },
+        { timeout: 8000 },
+      );
+    } else {
+      setGpsCoords(null);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,17 +85,22 @@ export function ReportSightingModal({ onReportAdded }: ReportSightingModalProps)
       disease: disease.trim() || "Unspecified Leaf Spot",
       plant: plant || "Rice (Paddy)",
       area: `${zone.city} · ${zone.name}`,
-      latitude: zone.lat,
-      longitude: zone.lon,
+      latitude: gpsCoords?.lat ?? zone.lat,
+      longitude: gpsCoords?.lon ?? zone.lon,
       date: new Date().toISOString(),
       severity: severity,
     };
 
-    addCommunityReport(newReport);
-    onReportAdded(newReport);
-
-    toast.success("Outbreak sighting recorded! Marked on regional risk radar.");
-    setOpen(false);
+    const countBefore = loadReports().length;
+    const nextList = addCommunityReport(newReport);
+    if (
+      nextList.length > countBefore ||
+      !nextList.some((r) => r.id === newReport.id && r !== newReport)
+    ) {
+      onReportAdded(newReport);
+      toast.success("Outbreak sighting recorded! Marked on regional risk radar.");
+      setOpen(false);
+    }
   };
 
   return (
@@ -152,6 +182,34 @@ export function ReportSightingModal({ onReportAdded }: ReportSightingModalProps)
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* FIX 7: Explicit Location Consent Checkbox */}
+          <div className="rounded-2xl border border-border/60 bg-muted/30 p-3 space-y-2">
+            <div className="flex items-start gap-2.5">
+              <Checkbox
+                id="gps-consent-check"
+                checked={consentGps}
+                onCheckedChange={(c) => handleConsentToggle(Boolean(c))}
+                className="mt-0.5"
+              />
+              <div className="space-y-0.5">
+                <Label
+                  htmlFor="gps-consent-check"
+                  className="text-xs font-medium text-foreground cursor-pointer"
+                >
+                  {t("consent.locationLabel")}
+                </Label>
+                <p className="text-[11px] text-muted-foreground">
+                  {t("consent.locationNote")}
+                  {gpsCoords && (
+                    <span className="block mt-0.5 font-mono text-emerald-600 dark:text-emerald-400">
+                      ✓ Location pinned ({gpsCoords.lat}, {gpsCoords.lon})
+                    </span>
+                  )}
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Severity Radio Buttons */}

@@ -1,7 +1,7 @@
 import { DISEASES } from "./diseases";
 import { PESTS } from "./pests";
 import { KNOWLEDGE_IMAGES } from "./images";
-import { SOURCES } from "./sources";
+import { SOURCES, DATA_SOURCES } from "./sources";
 import type {
   Difficulty,
   KnowledgeCategory,
@@ -12,7 +12,7 @@ import type {
 } from "./types";
 
 export * from "./types";
-export { KNOWLEDGE_IMAGES, SOURCES };
+export { KNOWLEDGE_IMAGES, SOURCES, DATA_SOURCES };
 
 /** Full library. Add new entries to diseases.ts / pests.ts — nothing else changes. */
 export const KNOWLEDGE: KnowledgeEntry[] = [...DISEASES, ...PESTS];

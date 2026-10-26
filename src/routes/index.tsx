@@ -19,6 +19,7 @@ import { RejectCard, type Rejection } from "@/components/reject-card";
 import { ResultCard } from "@/components/result-card";
 import { UploadPanel } from "@/components/upload-panel";
 import { WeatherCard } from "@/components/weather-card";
+import { OnboardingBanner } from "@/components/onboarding-banner";
 import { analyseDemo, type AnalysisResult } from "@/lib/demo-analysis";
 import {
   diagnoseLeaf,
@@ -41,9 +42,9 @@ import { SmartTips } from "@/components/smart-tips";
 import { approxKb, compressDataUrl, connectionPlan, withRetry } from "@/lib/upload-transport";
 import { seasonOf, type WeatherReport } from "@/lib/weather";
 
-const TITLE = "Crop Guardian — AI Agronomist for Every Farmer";
+const TITLE = "Crop Guardian — Agronomy Assistant for Every Farmer";
 const DESCRIPTION =
-  "Crop Guardian: Offline-first AI agronomy for smallholder farmers. Instant leaf disease detection, climate-smart spray advisory, and regional outbreak forecasting in Bengali, Hindi, and English.";
+  "Crop Guardian: Offline-first agronomy for smallholder farmers. Instant crop diagnosis, climate-smart spray advisory, and regional outbreak forecasting in Bengali, Hindi, and English.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -260,6 +261,7 @@ function LeafCheckPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-12 px-4 py-8 sm:px-6 sm:py-12">
+      <OnboardingBanner />
       <HeroScan title={t("heroTitle")} text={t("heroText")} />
       <LiveDemo />
       <ProcessTimeline />
